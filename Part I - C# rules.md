@@ -6,12 +6,13 @@ The rules in this part are C# programming language rules which define how the C#
 
 ## Language
 
-Always use English language for all identifiers, names, and comments.
+Always use proper English language for all identifiers, names, and comments.
 
 ## Casing
 
 Always use lowerCamelCase (e.g. `orderTotal`) for:
 
+* Local methods
 * Local variables
 * Iteration variables
 * Method parameters
@@ -20,7 +21,7 @@ Always use lowerCamelCase (e.g. `orderTotal`) for:
 Always use UpperCamelCase (e.g. `GetOrders`) for:
 
 * All type names
-* All type members
+* All type members, except private fields
 
 Always use lowerCamelCase  with leading underscore (e.g. `_orders`) for:
 
@@ -48,11 +49,11 @@ Never...
 
 ### Prefixes
 
-Never use prefixes (e.g. `EMyEnum`, `m_someField`, `CMyClass`) except for interfaces and private fields.
+Never use prefixes (e.g. `EMyEnum`, `m_someField`, `CMyClass`), except for interface types and private fields.
 
 ### Suffixes
 
-Never use suffixes (e.g. `someText_str`, `MyClassC`).
+Never use suffixes (e.g. `someText_str`, `MyClassC`), except for base types and extension types.
 
 ### Notations
 
@@ -87,7 +88,7 @@ Incorrect:
 public Bitmap ProcessBytes (byte[] byteArray) {...}
 ```
 
-Exception: Technical composition can be part of a name if it is part of the intention (e.g. the same data available in two different formats).
+Exception: Technical composition can be part of a name if it is part of the intention (e.g. the same data available in two different formats used in data conversion).
 
 Example:
 
@@ -172,6 +173,44 @@ Incorrect:
 
 ```c#
 public bool IsNotAllowed { get; private set; }
+```
+
+### Assemblies
+
+#### Conflicts
+
+Never start an assembly with a conflicting name, such as `System`, `Microsoft`, or other well-known names.
+
+Correct:
+
+```c#
+MyCompany.MyProduct.Utilities.dll
+```
+
+Incorrect:
+
+```c#
+System.Utilities.dll
+```
+
+#### Schema
+
+Always start an assembly with the company name and the component name before other parts.
+
+Correct:
+
+```c#
+MyCompany.MyProduct.Utilities.dll
+
+MyCompany.MyLibrary.Utilities.dll
+```
+
+Incorrect:
+
+```c#
+Utilities.dll
+
+MyLibrary.Utilities.dll
 ```
 
 ### Namespaces
@@ -288,7 +327,7 @@ public sealed class Customer
 }
 ```
 
-#### Interfaces
+#### Interface types
 
 Always prefix the name of an interface with `I`.
 
@@ -302,6 +341,44 @@ Incorrect:
 
 ```c#
 public interface MyInterface {...}
+```
+
+#### Base types
+
+Always suffix the name of an abstract type *which provides default interface implementation* with `Base`.
+
+Correct:
+
+```c#
+public abstract class DeviceBase : IDevice {...}
+```
+
+Incorrect:
+
+```c#
+public abstract class Device : IDevice {...}
+```
+
+#### Extension types
+
+Always suffix the name of a type which provides extension methods with `Extensions`.
+
+Always use the full name, also for `interface` type extensions.
+
+Correct:
+
+```c#
+public static class StringExtensions {...}
+
+public static class IServiceProviderExtensions {...}
+```
+
+Incorrect:
+
+```c#
+public static class StringUtilities {...}
+
+public static class ServiceProviderExtensions {...}
 ```
 
 ### Methods
@@ -442,7 +519,7 @@ Always use one of the following prefixes, using proper casing, for boolean value
 - `Allows`, `allows`
 - `Supports`, `supports`
 
-Example:
+Correct:
 
 ```c#
 public bool IsStarted { get; private set;}
@@ -452,9 +529,19 @@ public bool CanLogin (string username) {...}
 bool hasOrders = true;
 ```
 
+Incorrect:
+
+```c#
+public bool Started { get; private set;}
+
+public bool Loginable (string username) {...}
+
+bool ordered = true;
+```
+
 #### Computational values
 
-Always use one of the following suffixes for computational values:
+Always use one of the following suffixes, using proper casing, for computational values:
 
 - `Count`
 - `Sum`
@@ -463,7 +550,7 @@ Always use one of the following suffixes for computational values:
 - `Average`
 - `Median`
 
-Example:
+Correct:
 
 ```c#
 int itemCount = someList.Count;
@@ -471,9 +558,17 @@ int itemCount = someList.Count;
 public double CustomersPerHourAverage { get; set; }
 ```
 
+Incorrect:
+
+```c#
+int items = someList.Count;
+
+public double CustomersPerHour { get; set; }
+```
+
 #### Values with units
 
-Always use the corresponding unit suffix for values with units.
+Always use the corresponding unit suffix, using proper casing, for values with units.
 
 Correct:
 
@@ -493,7 +588,7 @@ public void FireLaser (double power) {...}
 
 #### UI controls
 
-Always use suffixes for UI values which match the type of the UI control.
+Always use suffixes for UI values, using proper casing, which match the kind of the UI control.
 
 Never use prefixes for UI values.
 
@@ -501,24 +596,24 @@ Correct:
 
 ```c#
 public Label FirstNameLabel { get; set; }
-public Label LastNameLabel { get; set; }
+public Label EditorCaption { get; set; }
 ```
 
 Incorrect:
 
 ```c#
 public Label lblFirstName { get; set; }
-public Label LastName { get; set; }
+public Label Editor { get; set; }
 ```
 
-#### Regions
+### Regions
 
 Always use simple region names which describe the content of the region but not its behavior or intention.
 
 Correct:
 
 ```c#
-#region Properties
+#region Instance Properties
 ...
 #endregion
 
@@ -541,24 +636,12 @@ Incorrect:
 
 #### File structure
 
-Always use the following structure in a source code file:
+Always use the following structure in a source code file, in this order:
 
 * File header (optional)
 * `using` directives
 * `namespace` declaration
-* Actual content or type definition respectively
-
-Never include the following in the file header:
-
-* The file name
-* The file location
-* The project name
-* The solution name
-* Any namespace names
-* Any type names
-* Any version information
-* Any history or change log information
-* Any author information
+* Actual content or type definition respectively (inside `namespace`)
 
 Correct:
 
@@ -582,7 +665,7 @@ namespace MyCompany.MyProduct.Utilities
 	using System;
 	using System.Collections.Generic;
     
-    // FILE HEADER
+	// FILE HEADER
 	// File:    D:\Workfolder\MyProduct\MyCompany.MyProduct.Utilities\StringUtilities.cs
 	// Version: 1.1
 	// Author:  Joe
@@ -590,6 +673,22 @@ namespace MyCompany.MyProduct.Utilities
 	public static class StringUtilities {...}
 }
 ```
+
+#### File header
+
+Never include the following in the file header:
+
+- The file name
+- The file location
+- The project name
+- The solution name
+- Any namespace names
+- Any type names
+- Any version information
+- Any history or change log information
+- Any author information
+
+It is recommended that a file header, if used at all, only contains copyright information as the actual documentation of namespaces, types, and members should be done through XML comments.
 
 #### One type per file
 
@@ -685,11 +784,35 @@ namespace MyCompany.MyProduct.Utilities
 
 #### Usage of regions
 
-Always use regions to group members of a type.
+Always use regions to group members of a type, where each member kind has its own region, in this order:
 
-Always use a single separate region per nested type.
+- Constants
+- Static constructor
+- Static fields
+- Static indexer
+- Static properties
+- Static events
+- Static methods
+- Operators
+- Instance constructors and destructor
+- Instance fields
+- Instance indexer
+- Instance properties
+- Instance events
+- Instance methods
+- Overriden members
+- Interface implementations (one region per implemented interface)
+- Nested types (one region per nested type)
 
-[TBD: Which member to group and how to name them]
+Within these regions, always sort the members first by accessibility (in the following order), then by name:
+
+* `public`
+* `internal`
+* `protected`
+* `internal protected`
+* `private`
+
+[TBD: Correct/Incorrect]
 
 #### Region scope/level
 
@@ -704,11 +827,11 @@ namespace MyCompany.MyLibrary.Utilities
 {
 	public static class FileUtilities
     {
-    	#region Properties
+    	#region Instance Properties
     	...
     	#endregion
     	
-    	#region Methods
+    	#region Instance Methods
     	...
     	#endregion
     }
@@ -740,11 +863,11 @@ namespace MyCompany.MyLibrary.Utilities
 {
 	public static class FileUtilities
     {
-    	#region Properties
+    	#region Instance Properties
     	...
     	#endregion
     	
-    	#region Methods
+    	#region Instance Methods
     	...
     	#endregion
     }
@@ -794,22 +917,22 @@ namespace MyCompany.MyLibrary.Utilities
 {
 	public static class FileUtilities
     {
-    	#region Properties
+    	#region Instance Properties
     	...
     	#endregion
     	
-    	#region Methods
+    	#region Instance Methods
     	...
     	#endregion
     	
     	#region SomeNestedClass
     	private sealed class SomeNestedClass
     	{
-    		#region Properties
+    		#region Instance Properties
     		...
     		#endregion
     	
-    		#region Methods
+    		#region Instance Methods
     		...
     		#endregion
     	}
@@ -915,6 +1038,8 @@ Correct:
 ```c#
 Customer customer = order.GetCustomer();
 decimal totalTurnover = customer.CalculateTurnover();
+
+foreach (var beam in this.LaserBeams) { ... }
 ```
 
 Incorrect:
@@ -962,7 +1087,7 @@ orders.InsertAt(index, newOrder);
 
 #### Scope reduction
 
-Always declare a variable as close to its first use as possible and in the narrowest scope possible.
+Always declare a variable as close to its use as possible and in the narrowest/innermost scope possible.
 
 Correct:
 
@@ -1079,7 +1204,7 @@ public bool IsRunning { get; private set; }
 
 #### Explicit operator precedence
 
-Always use parenthesis to explicitly express the precedence of operators:
+Always use parenthesis to explicitly express the precedence of operators.
 
 Correct:
 
