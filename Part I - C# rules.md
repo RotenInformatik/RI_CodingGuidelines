@@ -28,7 +28,7 @@ Always use lowerCamelCase (e.g. `orderTotal`) for:
 - Local variables
 - Local constants
 - Local methods
-- Iteration variables
+- Iteration variables (`for`, `foreach`)
 - Constructor parameters
 - Method parameters
 - Lambda parameters
@@ -86,7 +86,11 @@ Incorrect:
 private int lockVersion;
 ```
 
-#### Method action
+#### Event indications
+
+*See [Events](#Pre/Post indication)*
+
+#### Method actions
 
 Always use one of the following prefixes if a methods main action is to deliver an *existing* value:
 
@@ -197,6 +201,10 @@ public static class ServiceProviderExtensions {...}
 
 public static class IntExtensions {...}
 ```
+
+#### Event indications
+
+*See [Events](#Pre/Post indication)*
 
 #### Computational values
 
@@ -711,9 +719,9 @@ public event EventHandler Message; //a message itself cannot happen, it is just 
 
 #### Pre/Post indication
 
-Always indicate whether an event is chronologically raised before or after the event it describes.
+Always indicate whether an event is chronologically raised before or after the event it is tied to.
 
-Either use prefixes `Before` and `After` or endings `...ing` and `...ed`.
+Either use prefixes `Before` and `After` or suffixes (as word endings) `...ing` and `...ed`.
 
 Correct:
 
@@ -735,7 +743,7 @@ public event EventHandler Send; //is this before, during, or after?
 public event EventHandler StateChange; //is this before, during, or after?
 ```
 
-Exception: The context unambiguously defines the possibility when an event can be raised.
+Exception: The context unambiguously defines when an event can be raised.
 
 Example:
 
@@ -798,7 +806,9 @@ for (int i = 0; i < orders.Count; i++)
 Always use the following structure in a source code file, in this order:
 
 * File header (optional)
+* `extern alias` directives
 * `using` directives
+* `using static` directives
 * `namespace` declaration
 * Actual content or type definition respectively (inside `namespace`)
 
@@ -807,8 +817,13 @@ Correct:
 ```c#
 // FILE HEADER
 
+extern alias FooBarV1;
+extern alias FooBarV2;
+
 using System;
 using System.Collections.Generic;
+
+using static System.Math;
 
 namespace MyCompany.MyProduct.Utilities
 {
@@ -821,8 +836,13 @@ Incorrect:
 ```c#
 namespace MyCompany.MyProduct.Utilities
 {
+	using static System.Math;
+    
 	using System;
 	using System.Collections.Generic;
+    
+    extern alias FooBarV1;
+	extern alias FooBarV2;
     
 	// FILE HEADER
 	// File:    D:\Data\MyProduct\MyCompany.MyProduct.Utilities\StringUtilities.cs
@@ -851,6 +871,10 @@ Never include the following in a file header:
 
 It is recommended that a file header, if used at all, only contains copyright information as the actual documentation of namespaces, types, and members should be done through XML comments.
 
+#### One namespace per file
+
+Never declare more than one namespace per file.
+
 #### One type per file
 
 Always put each type in its own source code file which is named exactly as the type (even `delegate` types).
@@ -862,9 +886,70 @@ Exceptions:
 - Nested types (more than one type per source code file).
 - Partial classes (one type in more than one source code file).
 
-#### One namespace per file
+### `extern alias` directives
 
-Never declare more than one namespace per file.
+#### Grouping
+
+Always group `extern alias` directives according to the assemblies they belong to.
+
+Always group `extern alias` directives according to the following structure:
+
+1. Framework assemblies
+2. Third-party library assemblies
+3. Own library assemblies
+4. Assemblies within the same product as the type in the current source code file
+
+Correct:
+
+```c#
+extern alias CoolLibraryV1;
+extern alias CoolLibraryV2;
+
+extern alias MyLibraryV1;
+extern alias MyLibraryV2;
+
+namespace MyCompany.MyProduct.Something {...}
+```
+
+Incorrect:
+
+```c#
+extern alias MyLibraryV1;
+extern alias CoolLibraryV1;
+
+extern alias MyLibraryV2;
+extern alias CoolLibraryV2;
+
+namespace MyCompany.MyProduct.Something {...}
+```
+
+#### Freestanding
+
+Never put `extern alias` directives inside a namespace.
+
+Correct:
+
+```c#
+extern alias FooBarV1;
+extern alias FooBarV2;
+
+namespace MyCompany.MyProduct.Utilities
+{
+	public static class StringUtilities {...}
+}
+```
+
+Incorrect:
+
+```c#
+namespace MyCompany.MyProduct.Utilities
+{
+	extern alias FooBarV1;
+	extern alias FooBarV2;
+    
+	public static class StringUtilities {...}
+}
+```
 
 ### `using` directives
 
@@ -915,7 +1000,7 @@ namespace MyCompany.MyProduct.Something {...}
 
 #### Freestanding
 
-Never put using directives inside a namespace.
+Never put `using` directives inside a namespace.
 
 Correct:
 
@@ -941,7 +1026,109 @@ namespace MyCompany.MyProduct.Utilities
 }
 ```
 
-### `#region` blocks
+#### `using` alias
+
+Never use `using` alias directives.
+
+Correct:
+
+```c#
+using OtherCompany.TheirProduct.CoolFeature;
+
+namespace MyCompany.MyProduct.Utilities {...}
+```
+
+Incorrect:
+
+```c#
+using CoolFeature = OtherCompany.TheirProduct.CoolFeature;
+
+namespace MyCompany.MyProduct.Utilities {...}
+```
+
+Exception: To resolve conflicts between two namespaces or a namespace and a type name.
+
+Example:
+
+```c#
+using Bootstrapping = OtherCompany.TheirLibrary.Bootstrapper;
+
+namespace MyCompany.MyProduct.Utilities
+{
+	public static class MyApplication
+    {
+        public static void Main ()
+        {
+            //class Bootstrapper has same name as its containing namespace
+            Bootstrapper bs = new Bootstrapper();
+            bs.Run();
+        }
+    }
+}
+```
+
+#### `using static`
+
+Never use `using static` directives.
+
+Correct:
+
+```c#
+using System;
+
+namespace MyCompany.MyProduct.Utilities
+{
+	public static class Logger
+    {
+        public static void Print (string message)
+        {
+            Console.WriteLine(message);
+        }
+    }
+}
+```
+
+Incorrect:
+
+```c#
+using System;
+
+using static System.Console;
+
+namespace MyCompany.MyProduct.Utilities
+{
+	public static class Logger
+    {
+        public static void Print (string message)
+        {
+            WriteLine(message);
+        }
+    }
+}
+```
+
+Exception: For use with mathematical operations.
+
+Example:
+
+```c#
+using System;
+
+using static System.Math;
+
+namespace MyCompany.MyProduct.Utilities
+{
+	public static class Circle
+    {
+        public static double CalculateArea (double radius)
+        {
+            return PI * Pow(radius, 2);
+        }
+    }
+}
+```
+
+### #region` blocks
 
 #### Usage of regions
 
@@ -970,7 +1157,8 @@ Within these regions, always sort the members first by accessibility (in the fol
 * `public`
 * `internal`
 * `protected`
-* `internal protected`
+* `protected internal`
+* `private protected`
 * `private`
 
 #### Region scope/level
@@ -1100,7 +1288,7 @@ namespace MyCompany.MyLibrary.Utilities
 }
 ```
 
-### Type usage
+### Types
 
 #### Type aliases
 
@@ -1113,6 +1301,8 @@ Correct:
 ```c#
 int orderTotal = 0;
 string customerId = null;
+
+public object SyncRoot { get; }
 ```
 
 Incorrect:
@@ -1120,6 +1310,8 @@ Incorrect:
 ```c#
 Int32 orderTotal = 0;
 String customerId = null;
+
+public Object SyncRoot { get; }
 ```
 
 Exception: Always use the actual type name when used as a part of an identifier or name.
@@ -1188,7 +1380,7 @@ Type openTypeInfo = typeof(Nullable<>);
 
 #### `var` usage
 
-Never use `var` except for `foreach` iterator variables.
+Never use `var`.
 
 Correct:
 
@@ -1197,7 +1389,7 @@ Customer customer = order.GetCustomer();
 
 decimal totalTurnover = customer.CalculateTurnover();
 
-foreach (var beam in this.LaserBeams) { ... }
+
 ```
 
 Incorrect:
@@ -1206,6 +1398,29 @@ Incorrect:
 var customer = order.GetCustomer();
 
 var totalTurnover = customer.CalculateTurnover();
+```
+
+Exception: Use as `foreach` iterator variables.
+
+Example:
+
+```c#
+foreach (var beam in this.LaserBeams) { ... }
+```
+
+#### `out` declaration
+
+Always use `out` parameter variable declaration.
+
+```c#
+int value;
+if(!int.TryParse(input, out value)) {...}
+```
+
+Incorrect:
+
+```c#
+if(!int.TryParse(input, out int value)) {...}
 ```
 
 #### `for` iteration variables
@@ -1291,25 +1506,105 @@ double powerKilowatts = 0.0; int numberOfRounds, missCount;
 numberOfRounds = missCount = 0;
 ```
 
-### Statements
+### Statements & Expressions
 
-#### TODO Object initializers
+#### `this` and `base`
 
-[TBD]
+Always use `this` or `base` to access instance members (including constructors) from inside their type.
 
-#### TODO Anonymous methods
+Correct:
 
-[TBD]
+```c#
+public sealed class IceCreamMachine : FoodMachine
+{
+	public IceCreamMachine (string name)
+	 : this (name, null) {...}
+    
+    public IceCreamMachine (string name, Recipe[] recipes)
+     : base (name) {...}
+    
+    public override void Start ()
+    {
+    	base.Start();
+    	this.DeconstructRecipe();
+    }
+    
+    public new Serving DispenseOneServing ()
+    {
+    	Serving serving = base.DispenseOneServing();
+    	this.AddToppings(serving);
+    	return serving;
+    }
+}
+```
 
-#### TODO Lambda expressions
+Incorrect:
 
-[TBD]
+```c#
+public sealed class IceCreamMachine : FoodMachine
+{
+	public IceCreamMachine (string name)
+	 : base (name) {...}
+    
+    public IceCreamMachine (string name, Recipe[] recipes)
+     : base (name) {...}
+    
+    public override void Start ()
+    {
+    	base.Start();
+    	DeconstructRecipe();
+    }
+    
+    public new Serving DispenseOneServing ()
+    {
+    	Serving serving = ((FoodMachine)this).DispenseOneServing();
+    	AddToppings(serving);
+    	return serving;
+    }
+}
+```
+
+#### `where` generic constraints
+
+Always use at most one generic constraint per type parameter, each on its own dedicated line.
+
+Correct:
+
+```c#
+public sealed class MyDictionary <TKey, TValue>
+	where TKey : class
+	where TValue : new()
+{...}
+```
+
+Incorrect:
+
+```c#
+public sealed class MyDictionary <TKey, TValue>	where TKey : class where TValue : new()
+{...}
+```
+
+#### Numeric literals
+
+Always use `_` as thousand separators for numeric literals.
+
+Correct:
+
+```c#
+const int FifthPerfectNumber = 33_550_336;
+```
+
+Incorrect:
+
+```c#
+const int FifthPerfectNumber = 33550336;
+```
 
 ### Braces & Parenthesis
 
 #### Mandatory braces
 
-Always use curly braces with control statements (e.g. `if`, `for`) or for object initializers, even for one line statement blocks.
+Always use curly braces with control statements (`if`, `else`, `for`, `foreach`, `while`, `do`, `switch`) and encapsulation statements (`using`, `lock`, `fixed`) or for object initializers, even for one line statement blocks.
 
 Correct:
 
@@ -1555,3 +1850,17 @@ Methods
 
 
 Operators
+
+
+
+#### TODO Object initializers
+
+[TBD]
+
+#### TODO Anonymous methods
+
+[TBD]
+
+#### TODO Lambda expressions
+
+[TBD]
