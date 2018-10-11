@@ -233,7 +233,7 @@ int items = someList.Count;
 public double CustomersPerHour { get; set; }
 ```
 
-#### Values with units
+#### Unit values
 
 Always use the corresponding unit suffix, using proper casing, for values with units.
 
@@ -302,33 +302,7 @@ string strComment = "Test";
 string str_Comment = "Test";
 ```
 
-### Meaning
-
-Always choose meaningful names which describe the intention and not type, size, or technical composition.
-
-Correct:
-
-```c#
-public Bitmap ConvertToBitmap (byte[] rawData) {...}
-```
-
-Incorrect:
-
-```c#
-public Bitmap ProcessBytes (byte[] byteArray) {...}
-```
-
-Exception: Technical composition can be part of a name if it is part of the intention (e.g. the same data available in two different formats used in data conversion).
-
-Example:
-
-```c#
-public byte[] ConvertToByteArray (string value) {...}
-
-public int ConvertToInt32 (string value) {...}
-```
-
-### Length
+### Lengths
 
 Always choose names which are expressive enough and never unnecessarily shorten names.
 
@@ -390,7 +364,33 @@ Example:
 namespace MyCompany.MyProduct.Utilities.IO {...}
 ```
 
-### Negations
+### Meaning
+
+Always choose meaningful names which describe the intention and not type, size, or technical composition.
+
+Correct:
+
+```c#
+public Bitmap ConvertToBitmap (byte[] rawData) {...}
+```
+
+Incorrect:
+
+```c#
+public Bitmap ProcessBytes (byte[] byteArray) {...}
+```
+
+Exception: Technical composition can be part of a name if it is part of the intention (e.g. the same data available in two different formats used in data conversion).
+
+Example:
+
+```c#
+public byte[] ConvertToByteArray (string value) {...}
+
+public int ConvertToInt32 (string value) {...}
+```
+
+### Negation
 
 Never use negated names.
 
@@ -1128,7 +1128,7 @@ namespace MyCompany.MyProduct.Utilities
 }
 ```
 
-### #region` blocks
+### `#region` blocks
 
 #### Usage of regions
 
@@ -1564,7 +1564,29 @@ public sealed class IceCreamMachine : FoodMachine
 }
 ```
 
-#### `where` generic constraints
+#### Numeric literals
+
+Always use `_` as thousand separators for numeric literals.
+
+Correct:
+
+```c#
+const int FifthPerfectNumber = 33_550_336;
+```
+
+Incorrect:
+
+```c#
+const int FifthPerfectNumber = 33550336;
+```
+
+### Modifiers
+
+#### TODO Member modifiers
+
+
+
+#### Generic constraints
 
 Always use at most one generic constraint per type parameter, each on its own dedicated line.
 
@@ -1582,22 +1604,6 @@ Incorrect:
 ```c#
 public sealed class MyDictionary <TKey, TValue>	where TKey : class where TValue : new()
 {...}
-```
-
-#### Numeric literals
-
-Always use `_` as thousand separators for numeric literals.
-
-Correct:
-
-```c#
-const int FifthPerfectNumber = 33_550_336;
-```
-
-Incorrect:
-
-```c#
-const int FifthPerfectNumber = 33550336;
 ```
 
 ### Braces & Parenthesis
@@ -1796,6 +1802,10 @@ Methods
 
 
 Operators
+
+
+
+## TODO Preprocessor
 
 
 
