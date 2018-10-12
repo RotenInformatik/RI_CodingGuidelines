@@ -10,7 +10,15 @@ The rules in this part are C# programming language rules which define how the C#
 
 Always use proper English language for all names.
 
-### Casing
+### Characters
+
+Never...
+
+- ...use any other character than uppercase letters (`A-Z`), lowercase letters (`a-z`), and numbers (`0-9`).
+- ...use numbers (`0-9`) at the beginning of names.
+- ...use underscores (`_`), except as prefix for private fields.
+
+### Casings
 
 Always use UpperCamelCase with punctuation (e.g. `Company.Product.Something`) for:
 
@@ -20,7 +28,7 @@ Always use UpperCamelCase with punctuation (e.g. `Company.Product.Something`) fo
 Always use UpperCamelCase without punctuation (e.g. `GetOrders`) for:
 
 - All type names
-- All type members, except for private fields
+- All type members, except private fields
 
 Always use lowerCamelCase (e.g. `orderTotal`) for:
 
@@ -39,251 +47,6 @@ Never...
 
 - ...use all uppercase (e.g. `GETORDERS`).
 - ...use all lowercase (e.g. `ordertotal`), except for properly lowerCamelCased identifiers of one word.
-
-### Characters
-
-Never...
-
-- ...use any other character than uppercase letters (`A-Z`), lowercase letters (`a-z`), and numbers (`0-9`).
-- ...use numbers (`0-9`) at the beginning of names.
-- ...use underscores (e.g. `_my_precious_value`), except as prefix for private fields.
-
-### Prefixes
-
-#### General
-
-Never use prefixes (e.g. `EMyEnum`, `m_someField`, `CMyClass`), except for cases described below.
-
-#### Interface types
-
-Always prefix the name of an interface with `I`.
-
-Correct:
-
-```c#
-public interface IBeamWeapon {...}
-```
-
-Incorrect:
-
-```c#
-public interface BeamWeapon {...}
-```
-
-#### Private fields
-
-Always use `_` as prefix for private fields.
-
-Correct:
-
-```c#
-private int _lockVersion;
-```
-
-Incorrect:
-
-```c#
-private int lockVersion;
-```
-
-#### Event indications
-
-*See [Events](#Pre/Post indication)*
-
-#### Method actions
-
-Always use one of the following prefixes if a methods main action is to deliver an *existing* value:
-
-- `Get`
-
-Always use one of the following prefixes if a methods main action is to *retrieve* or *compute* a value:
-
-- `Retrieve`
-- `Determine`
-- `Compute`
-- `Calculate`
-
-Correct:
-
-```c#
-public CompositionState GetCompositionState () {...}
-
-public decimal CalculateCustomerTurnover () {...}
-```
-
-Incorrect:
-
-```c#
-public CompositionState Composition () {...}
-
-public decimal GetCustomerTurnover () {...}
-```
-
-#### Boolean values
-
-Always use one of the following prefixes, using proper casing, for boolean values:
-
-- `Is`, `is`
-- `Has`, `has`
-- `Contains`, `contains`
-- `Can`, `can`
-- `Should`, `should`
-- `Must`, `must`
-- `Allows`, `allows`
-- `Supports`, `supports`
-
-Correct:
-
-```c#
-public bool IsStarted { get; private set;}
-
-public bool CanLogin (string username) {...}
-
-bool hasOrders = true;
-```
-
-Incorrect:
-
-```c#
-public bool Started { get; private set;}
-
-public bool Loginable (string username) {...}
-
-bool ordered = true;
-```
-
-### Suffixes
-
-#### General
-
-Never use suffixes (e.g. `someText_str`, `MyClassC`), except for cases described below.
-
-#### Base types
-
-Always suffix the name of an abstract type *which provides default interface implementation* with `Base`.
-
-Correct:
-
-```c#
-public abstract class DeviceBase : IDevice {...}
-```
-
-Incorrect:
-
-```c#
-public abstract class Device : IDevice {...}
-```
-
-#### Extension types
-
-Always suffix the name of a type which provides extension methods with `Extensions`.
-
-Always use the full name, also for `interface` type extensions.
-
-Never use type aliases, also for well known type extensions.
-
-Correct:
-
-```c#
-public static class StringExtensions {...}
-
-public static class IServiceProviderExtensions {...}
-
-public static class Int32Extensions {...}
-```
-
-Incorrect:
-
-```c#
-public static class StringUtilities {...}
-
-public static class ServiceProviderExtensions {...}
-
-public static class IntExtensions {...}
-```
-
-#### Event indications
-
-*See [Events](#Pre/Post indication)*
-
-#### Computational values
-
-Always use one of the following suffixes, using proper casing, for computational values:
-
-- `Count`
-- `Sum`
-- `Min`
-- `Max`
-- `Average`
-- `Median`
-
-Correct:
-
-```c#
-int itemCount = someList.Count;
-
-public double CustomersPerHourAverage { get; set; }
-```
-
-Incorrect:
-
-```c#
-int items = someList.Count;
-
-public double CustomersPerHour { get; set; }
-```
-
-#### Unit values
-
-Always use the corresponding unit suffix, using proper casing, for values with units.
-
-Correct:
-
-```c#
-public Image DownloadImage (string url, int timeoutMilliseconds) {...}
-
-public int LaserPowerKilowatts { get; set; }
-```
-
-Incorrect:
-
-```c#
-public Image DownloadImage (string url, int timeout) {...}
-
-public int LaserPower { get; set; }
-```
-
-Exception: The unit is provided dynamically, e.g. through an additional property.
-
-Example:
-
-```c#
-public double RadiationValue { get; }
-
-public RadiationUnit RadiationUnit { get; }
-```
-
-#### UI controls
-
-Always use suffixes for UI values, using proper casing, which matches the type of the UI control.
-
-Never use prefixes for UI values.
-
-Correct:
-
-```c#
-public Label FirstNameLabel { get; set; }
-
-public TextBox FirstNameEdit { get; set; }
-```
-
-Incorrect:
-
-```c#
-public Label lblFirstName { get; set; }
-
-public TextBox FirstName { get; set; }
-```
 
 ### Notations
 
@@ -406,6 +169,309 @@ Incorrect:
 public bool IsNotAllowed { get; private set; }
 ```
 
+### Prefixes
+
+#### General
+
+Never use prefixes (e.g. `EMyEnum`, `m_someField`, `CMyClass`), except for cases described below.
+
+#### Interface types
+
+Always prefix the name of an interface with `I`.
+
+Correct:
+
+```c#
+public interface IBeamWeapon {...}
+```
+
+Incorrect:
+
+```c#
+public interface BeamWeapon {...}
+```
+
+#### Private fields
+
+Always prefix the name of a private field with `_`.
+
+Correct:
+
+```c#
+private int _lockVersion;
+```
+
+Incorrect:
+
+```c#
+private int lockVersion;
+```
+
+#### Type parameters
+
+Always prefix type parameters with `T`.
+
+Always use the name to express what the type parameter is used for.
+
+Correct:
+
+```c#
+public class RandomDictionary <TKey, TValue> {...}
+```
+
+Incorrect:
+
+```c#
+public class RandomDictionary <Key, Value> {...} //not recognizable as a type parameter
+
+public class RandomDictionary <T, U> {...} //what are they used for?
+```
+
+Exception: Use just `T` if only one type parameter is used.
+
+Example:
+
+```c#
+public class RandomCollection <T> {...}
+```
+
+#### Method actions
+
+Always use one of the following prefixes if a methods main action is to deliver an *existing* value:
+
+- `Get`
+
+Always use one of the following prefixes if a methods main action is to *retrieve* or *compute* a value:
+
+- `Retrieve`
+- `Determine`
+- `Compute`
+- `Calculate`
+
+Correct:
+
+```c#
+public CompositionState GetCompositionState () {...}
+
+public decimal CalculateCustomerTurnover () {...}
+```
+
+Incorrect:
+
+```c#
+public CompositionState Composition () {...}
+
+public decimal GetCustomerTurnover () {...}
+```
+
+#### Boolean values
+
+Always use one of the following prefixes, using proper casing, for boolean values (members, variables):
+
+- `Is`, `is`
+- `Has`, `has`
+- `Contains`, `contains`
+- `Can`, `can`
+- `Should`, `should`
+- `Must`, `must`
+- `Allows`, `allows`
+- `Supports`, `supports`
+
+Correct:
+
+```c#
+public bool IsStarted { get; private set;}
+
+public bool CanLogin (string username) {...}
+
+bool hasOrders = true;
+```
+
+Incorrect:
+
+```c#
+public bool Started { get; private set;}
+
+public bool Loginable (string username) {...}
+
+bool ordered = true;
+```
+
+#### Event indications
+
+*See [Events](#Pre/Post indication)*
+
+### Suffixes
+
+#### General
+
+Never use suffixes (e.g. `someText_str`, `MyClassC`), except for cases described below.
+
+#### Base types
+
+Always suffix the name of an abstract type which provides default interface implementation with `Base`.
+
+Correct:
+
+```c#
+public abstract class DeviceBase : IDevice {...}
+```
+
+Incorrect:
+
+```c#
+public abstract class Device : IDevice {...}
+```
+
+#### Extension types
+
+Always suffix the name of a type which provides extension methods with `Extensions`.
+
+Always use the full name, also for interface type extensions.
+
+Never use type aliases, also for well known type extensions.
+
+Correct:
+
+```c#
+public static class StringExtensions {...}
+
+public static class IServiceProviderExtensions {...}
+
+public static class Int32Extensions {...}
+```
+
+Incorrect:
+
+```c#
+public static class StringUtilities {...}
+
+public static class ServiceProviderExtensions {...}
+
+public static class IntExtensions {...}
+```
+
+#### Async methods
+
+Always suffix the name of an async method with `Async`.
+
+Correct:
+
+```c#
+public async Task<Response> TransceiveAsync (Request request) {...}
+```
+
+Incorrect:
+
+```c#
+public async Task<Response> Transceive (Request request) {...}
+```
+
+#### Unsafe contexts
+
+Always suffix the name of an unsafe type or member with `Unsafe`.
+
+Never repeat the `Unsafe` suffix in a member if the containing type already uses the `Unsafe` suffix.
+
+Correct:
+
+```c#
+public unsafe sealed class MemoryPointerUnsafe {...}
+
+public unsafe byte[] ReadMemoryUnsafe (IntPtr address) {...}
+```
+
+Incorrect:
+
+```c#
+public unsafe sealed class MemoryPointer {...}
+
+public unsafe byte[] ReadMemory (IntPtr address) {...}
+```
+
+#### Computed values
+
+Always use one of the following suffixes, using proper casing, for computed values (members, variables):
+
+- `Count`
+- `Sum`
+- `Min`
+- `Max`
+- `Average`
+- `Median`
+
+Correct:
+
+```c#
+int itemCount = someList.Count;
+
+public double CustomersPerHourAverage { get; set; }
+```
+
+Incorrect:
+
+```c#
+int items = someList.Count;
+
+public double CustomersPerHour { get; set; }
+```
+
+#### Unit values
+
+Always use the corresponding unit suffix, using proper casing, for values with units (members, variables).
+
+Correct:
+
+```c#
+public Image DownloadImage (string url, int timeoutMilliseconds) {...}
+
+public int LaserPowerKilowatts { get; set; }
+```
+
+Incorrect:
+
+```c#
+public Image DownloadImage (string url, int timeout) {...}
+
+public int LaserPower { get; set; }
+```
+
+Exception: The unit is provided dynamically, e.g. through an additional property.
+
+Example:
+
+```c#
+public double RadiationValue { get; }
+
+public RadiationUnit RadiationUnit { get; }
+```
+
+#### UI controls
+
+Always use suffixes for UI controls, using proper casing, which matches the type of the UI control.
+
+Never use prefixes for UI values.
+
+Correct:
+
+```c#
+public Label FirstNameLabel { get; set; }
+
+public TextBox FirstNameEdit { get; set; }
+```
+
+Incorrect:
+
+```c#
+public Label lblFirstName { get; set; }
+
+public TextBox FirstName { get; set; }
+```
+
+#### Event indications
+
+*See [Events](#Pre/Post indication)*
+
 ### Assemblies
 
 #### Conflicts
@@ -427,6 +493,8 @@ System.Utilities.dll
 #### Schema
 
 Always start an assembly with the company name and the component name before other parts.
+
+Ensure that the entire organization uses the same schema.
 
 Correct:
 
@@ -465,6 +533,8 @@ namespace System.Utilities {...}
 #### Schema
 
 Always start a namespace with the company name and the component name before other parts.
+
+Ensure that the entire organization uses the same schema.
 
 Correct:
 
@@ -562,18 +632,22 @@ namespace MyCompany.MyLibrary.Bootstrapper
 
 #### Clarity
 
-Never use a name for a type which is already used or which is too general.
+Never use a type name which is already used elsewhere, in well-known libraries, or which is too general.
 
 Correct:
 
 ```c#
 public sealed class IceCreamDeviceManager {...}
+
+public static class DeveloperConsole {...}
 ```
 
  Incorrect:
 
 ```c#
 public sealed class DeviceManager {...}
+
+public static class Console {...}
 ```
 
 #### Redundancy
@@ -670,13 +744,17 @@ Always use a object for property, field, and constant names.
 Correct:
 
 ```c#
-public int OrderCount { get; set; }
+public int OrderCount { get; }
+
+public int MaxPlayers { get; set; }
 ```
 
 Incorrect:
 
 ```c#
-public int GetOrderCount { get; set; } //implies method by adding a verb
+public int GetOrderCount { get; } //implies method by adding a verb
+
+public int GetMaxPlayers { get; set; } //implies getter-only
 ```
 
 #### Returned type
@@ -721,14 +799,19 @@ public event EventHandler Message; //a message itself cannot happen, it is just 
 
 Always indicate whether an event is chronologically raised before or after the event it is tied to.
 
-Either use prefixes `Before` and `After` or suffixes (as word endings) `...ing` and `...ed`.
+Always use at least one of the following:
+
+* Prefixes (`Before`, `While`, `After`)
+* Suffixes as word endings (`...ing`, `...ed`)
 
 Correct:
 
 ```c#
-public event EventHandler BeforeSend;
+public event EventHandler BeforeSending;
 
-public event EventHandler AfterSend;
+public event EventHandler WhileSending;
+
+public event EventHandler AfterSending;
 
 public event EventHandler StateChanging;
 
@@ -738,7 +821,7 @@ public event EventHandler StateChanged;
 Incorrect:
 
 ```c#
-public event EventHandler Send; //is this before, during, or after?
+public event EventHandler Send; //is this before or after?
 
 public event EventHandler StateChange; //is this before, during, or after?
 ```
@@ -797,7 +880,9 @@ for (int i = 0; i < orders.Count; i++)
 }
 ```
 
-## Style & Formatting
+## Styling
+
+*See also [Templates](#Templates) for detailed reference*
 
 ### Source code files
 
@@ -877,14 +962,14 @@ Never declare more than one namespace per file.
 
 #### One type per file
 
-Always put each type in its own source code file which is named exactly as the type (even `delegate` types).
+Always put each type in its own source code file which is named exactly as the type (even delegate types).
 
 Never put more than one type in a source code file.
 
 Exceptions:
 
 - Nested types (more than one type per source code file).
-- Partial classes (one type in more than one source code file).
+- Partial classes (one type spread over more than one source code file).
 
 ### `extern alias` directives
 
@@ -1026,7 +1111,7 @@ namespace MyCompany.MyProduct.Utilities
 }
 ```
 
-#### `using` alias
+#### `using alias`
 
 Never use `using` alias directives.
 
@@ -1107,7 +1192,7 @@ namespace MyCompany.MyProduct.Utilities
 }
 ```
 
-Exception: For use with mathematical operations.
+Exception: For use with mathematical operations (from any framework or library).
 
 Example:
 
@@ -1142,13 +1227,14 @@ Always use regions to group members of a type, where each kind of member has its
 - Static events
 - Static methods
 - Operators
-- Instance constructors and destructor
+- Instance constructors
+- Instance destructor
 - Instance fields
 - Instance indexer
 - Instance properties
 - Instance events
 - Instance methods
-- Overriden members
+- Overridden and overwritten members
 - Interface implementations (one region per implemented interface)
 - Nested types (one region per nested type)
 
@@ -1508,9 +1594,25 @@ numberOfRounds = missCount = 0;
 
 ### Statements & Expressions
 
+#### `nameof`
+
+Always use `nameof` instead of hard-coded names.
+
+Correct:
+
+```c#
+this.OnPropertyChanged(nameof(this.UserName));
+```
+
+Incorrect:
+
+```c#
+this.OnPropertyChanged("UserName");
+```
+
 #### `this` and `base`
 
-Always use `this` or `base` to access instance members (including constructors) from inside their type.
+Always use `this` or `base` to access instance members (including constructors) from inside the type.
 
 Correct:
 
@@ -1564,6 +1666,32 @@ public sealed class IceCreamMachine : FoodMachine
 }
 ```
 
+#### Static type names
+
+Always use the type name to access static members (even from inside the type).
+
+Correct:
+
+```c#
+public static StringUtility
+{
+	...
+	string[] pieces = StringUtility.SplitNewLines(value);
+	...
+}
+```
+
+Incorrect:
+
+```c#
+public static StringUtility
+{
+	...
+	string[] pieces = SplitNewLines(value);
+	...
+}
+```
+
 #### Numeric literals
 
 Always use `_` as thousand separators for numeric literals.
@@ -1580,15 +1708,11 @@ Incorrect:
 const int FifthPerfectNumber = 33550336;
 ```
 
-### Modifiers
+### Generic type constraints
 
-#### TODO Member modifiers
+#### Separation
 
-
-
-#### Generic constraints
-
-Always use at most one generic constraint per type parameter, each on its own dedicated line.
+Always separate generic type constraints into one dedicated line per type parameter.
 
 Correct:
 
@@ -1606,7 +1730,76 @@ public sealed class MyDictionary <TKey, TValue>	where TKey : class where TValue 
 {...}
 ```
 
-### Braces & Parenthesis
+#### Order
+
+Always use the following generic type constraint order (multiplicity stated in parentheses):
+
+1. `class`, `struct`, `unmanaged`, base class type (0...1)
+2. other type parameters (0...*)
+3. interface types (0...*)
+4. `new()` (0...1)
+
+Correct:
+
+```c#
+public sealed class ValueProxy <TValue, TProxy>
+	where TValue : class, TProxy, IDisposable
+	where TProxy : ProxyBase, new()
+{...}
+```
+
+Incorrect:
+
+```c#
+public sealed class ValueProxy <TValue, TProxy>
+	where TValue : IDisposable, TProxy, class
+	where TProxy : new(), ProxyBase
+{...}
+```
+
+### Miscellaneous
+
+#### `goto`
+
+Never use `goto`.
+
+#### `partial`
+
+Never use `partial` types or methods.
+
+Exception: If the code for a type is not fully but partially auto-generated.
+
+#### Modifier order
+
+Always use the following modifier order:
+
+1. `public`, `private`, `protected`, `internal`
+2. `new`
+3. `abstract`
+4. `virtual`
+5. `sealed`
+6. `override`
+7. `static`
+8. `readonly`, `ref`
+9. `extern`
+10. `unsafe`
+11. `volatile`
+12. `async`
+13. `partial`
+
+#### LINQ queries/extensions
+
+Never mix LINQ queries and LINQ extension methods.
+
+## Formatting
+
+*See also [Templates](#Templates) for detailed reference*
+
+### TODO Braces
+
+
+
+### TODO Parenthesis
 
 #### Mandatory braces
 
@@ -1689,13 +1882,13 @@ if (width * height + offset >= threshold)
 }
 ```
 
-### Whitespaces
+### TODO Whitespaces
 
 #### Tabs vs. Spaces
 
 Always use spaces.
 
-#### TODO Spaces
+#### Spaces
 
 Always put *one* space before:
 
@@ -1714,7 +1907,7 @@ Never put spaces after:
 
 * Opening parentheses (`(`) of control statements (e.g. `if`, `for`).
 
-#### TODO Empty lines
+#### Empty lines
 
 Always put empty lines between (number of empty lines stated in parentheses):
 
@@ -1729,7 +1922,7 @@ Never put empty lines between:
 * A comment and the type or member its commenting/describing.
 * A curly brace and its outer or inner scope.
 
-#### TODO Indentations
+#### Indentations
 
 [TBD]
 
@@ -1741,7 +1934,9 @@ Never increment the indentation level after:
 
 * `#region`
 
-## Comments
+## Commenting
+
+*See also [Templates](#Templates) for detailed reference*
 
 ### Language
 
