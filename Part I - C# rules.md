@@ -351,6 +351,38 @@ public static class ServiceProviderExtensions {...}
 public static class IntExtensions {...}
 ```
 
+#### Attribute types
+
+Always suffix the name of an attribute type with `Attribute`.
+
+Correct:
+
+```c#
+public sealed class ExportAttribute : Attribute {...}
+```
+
+Incorrect:
+
+```c#
+public sealed class Export : Attribute {...}
+```
+
+#### Exception types
+
+Always suffix the name of an exception type with `Exception`.
+
+Correct:
+
+```c#
+public class TransmissionFailedException : Exception {...}
+```
+
+Incorrect:
+
+```c#
+public class TransmissionFailed : Exception {...}
+```
+
 #### Async methods
 
 Always suffix the name of an async method with `Async`.
@@ -1438,6 +1470,32 @@ using System.Collections;
 public sealed class AppleOrangeComparer : IComparer, SomeLibrary.IComparer {...}
 ```
 
+#### Static type names
+
+Always use the type name to access static members (even from inside the type).
+
+Correct:
+
+```c#
+public static StringUtility
+{
+	...
+	string[] pieces = StringUtility.SplitNewLines(value);
+	...
+}
+```
+
+Incorrect:
+
+```c#
+public static StringUtility
+{
+	...
+	string[] pieces = SplitNewLines(value);
+	...
+}
+```
+
 #### Nullable types
 
 Never use `Nullable<T>`, use `T?` instead.
@@ -1460,6 +1518,24 @@ Example:
 
 ```c#
 Type openTypeInfo = typeof(Nullable<>);
+```
+
+#### Attribute types
+
+Always use the shortened type names when applying attributes, omitting the `Attribute` suffix.
+
+Correct:
+
+```c#
+[Export]
+public class BackupService {...}
+```
+
+Incorrect:
+
+```c#
+[ExportAttribute]
+public class BackupService {...}
 ```
 
 ### Variables
@@ -1592,7 +1668,7 @@ double powerKilowatts = 0.0; int numberOfRounds, missCount;
 numberOfRounds = missCount = 0;
 ```
 
-### Statements & Expressions
+### Expressions
 
 #### `nameof`
 
@@ -1663,32 +1739,6 @@ public sealed class IceCreamMachine : FoodMachine
     	AddToppings(serving);
     	return serving;
     }
-}
-```
-
-#### Static type names
-
-Always use the type name to access static members (even from inside the type).
-
-Correct:
-
-```c#
-public static StringUtility
-{
-	...
-	string[] pieces = StringUtility.SplitNewLines(value);
-	...
-}
-```
-
-Incorrect:
-
-```c#
-public static StringUtility
-{
-	...
-	string[] pieces = SplitNewLines(value);
-	...
 }
 ```
 
@@ -1791,39 +1841,19 @@ Always use the following modifier order:
 
 Never mix LINQ queries and LINQ extension methods.
 
+#### Prefer expressions
+
+Always use the expression statement form if possible (see [Templates](#Templates)).
+
 ## Formatting
 
 *See also [Templates](#Templates) for detailed reference*
 
-### TODO Braces
-
-
-
-### TODO Parenthesis
-
-#### Mandatory braces
-
-Always use curly braces with control statements (`if`, `else`, `for`, `foreach`, `while`, `do`, `switch`) and encapsulation statements (`using`, `lock`, `fixed`) or for object initializers, even for one line statement blocks.
-
-Correct:
-
-```c#
-if (orders.Count == 0)
-{
-    this.ShowWarning("Customer never ordered anything.");
-}
-```
-
-Incorrect:
-
-```c#
-if (orders.Count == 0)
-    this.ShowWarning("Customer never ordered anything.");
-```
+### Braces
 
 #### Separate lines
 
-Always put curly braces on their own line and properly indented.
+Always put curly braces on their own line.
 
 Correct:
 
@@ -1840,16 +1870,6 @@ Incorrect:
 if (orders.Count == 0) {
     this.ShowWarning("Customer never ordered anything.");
 }
-
-if (orders.Count == 0)
-	{
-    this.ShowWarning("Customer never ordered anything.");
-	}
-
-if (orders.Count == 0)
-{
-this.ShowWarning("Customer never ordered anything.");
-}
 ```
 
 Exception: Automatic properties.
@@ -1859,6 +1879,167 @@ Example:
 ```c#
 public bool IsRunning { get; private set; }
 ```
+
+#### Used braces
+
+Always use curly braces with the following, even for one line code blocks:
+
+* `do`
+
+  ```c#
+  do
+  {
+      ...
+  } while (device.IsBusy)
+  ```
+
+* `while`
+
+  ```c#
+  while (device.IsBusy)
+  {
+      ...
+  }
+  ```
+
+* `if`, `else`
+
+  ```c#
+  if (orders.Count == 0)
+  {
+      ...
+  }
+  else
+  {
+      ...
+  }
+  ```
+
+* `for`
+
+  ```c#
+  for (int index = 0; index < this.Customers.Count; index++)
+  {
+      ...
+  }
+  ```
+
+* `foreach`
+
+  ```c#
+  foreach (var customer in this.Customers)
+  {
+      ...
+  }
+  ```
+
+* `switch`
+
+  ```c#
+  switch (args[0])
+  {
+  	...
+  }
+  ```
+
+* `fixed`
+
+  ```c#
+  fixed (int* p = &pt.x)
+  {
+      ...
+  }
+  ```
+
+* `lock`
+
+  ```c#
+  lock (this.SyncRoot)
+  {
+      ...
+  }
+  ```
+
+* `unsafe`
+
+  ```c#
+  unsafe
+  {
+      ...
+  }
+  ```
+
+* `using`
+
+  ```c#
+  using (MemoryStream ms = new MemoryStream())
+  {
+      ...
+  }
+  ```
+
+* `try`, `catch`, `finally`
+
+  ```c#
+  try
+  {
+      ...
+  }
+  catch
+  {
+      ...
+  }
+  finally
+  {
+      ...
+  }
+  ```
+
+* `checked`
+
+  ```c#
+  checked
+  {
+      ...
+  }
+  ```
+
+* `unchecked`
+
+  ```c#
+  unchecked
+  {
+      ...
+  }
+  ```
+
+#### Omitted braces
+
+Never use curly braces with the following, even for multi line code blocks:
+
+* `case`
+
+  ```c#
+  switch (args[0])
+  {
+      case abc:
+          ...
+          break;
+  }
+  ```
+
+* `default`
+
+  ```c#
+  switch (args[0])
+  {
+      default:
+          ...
+          break;
+  }
+  ```
+
+### Parenthesis
 
 #### Explicit operator precedence
 
@@ -1881,6 +2062,104 @@ if (width * height + offset >= threshold)
     ...
 }
 ```
+
+#### Used parenthesis
+
+Always use parenthesis with the following:
+
+* `checked`
+
+  ```c#
+  checked(someValue + 10)
+  ```
+
+* `unchecked`
+
+* ```c#
+  checked(someValue + 10)
+  ```
+
+  `default`
+
+  ```c#
+  default(T)
+  ```
+
+* `nameof`
+
+  ```c#
+  nameof(this.SomeProperty)
+  ```
+
+* `sizeof`
+
+  ```c#
+  sizeof(int)
+  ```
+
+* `typeof`
+
+  ```c#
+  typeof(int)
+  ```
+
+* `catch`, `when`
+
+  ```c#
+  catch (HttpRequestException e) when (e.Message.Contains("404"))
+  ```
+
+#### Omitted parenthesis
+
+Never use parenthesis with the following, except to express precedence:
+
+* `await`
+
+  ```c#
+  await someTask
+  ```
+
+* `stackalloc`
+
+  ```c#
+  stackalloc int[100]
+  ```
+
+* `case`, `when`
+
+  ```c#
+  case Rectangle r when r.Area > 0:
+  ```
+
+* `default`
+
+  ```c#
+  default:
+  ```
+
+* `goto`
+
+  ```c#
+  goto someLabel;
+  ```
+
+* `return`
+
+  ```c#
+  return someValue;
+  ```
+
+* `yield return`
+
+  ```c#
+  yield return someValue;
+  ```
+
+* `throw`
+
+  ```c#
+  throw new InvalidOperationException();
+  ```
 
 ### TODO Whitespaces
 
