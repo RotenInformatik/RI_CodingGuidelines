@@ -1576,13 +1576,13 @@ Always use `out` parameter variable declaration.
 
 ```c#
 int value;
-if(!int.TryParse(input, out value)) {...}
+if (!int.TryParse(input, out value)) {...}
 ```
 
 Incorrect:
 
 ```c#
-if(!int.TryParse(input, out int value)) {...}
+if (!int.TryParse(input, out int value)) {...}
 ```
 
 #### `for` iteration variables
@@ -1722,10 +1722,10 @@ Incorrect:
 public sealed class IceCreamMachine : FoodMachine
 {
 	public IceCreamMachine (string name)
-	 : base (name) {...}
+	 : base(name) {...}
     
     public IceCreamMachine (string name, Recipe[] recipes)
-     : base (name) {...}
+     : base(name) {...}
     
     public override void Start ()
     {
@@ -2161,13 +2161,15 @@ Never use parenthesis with the following, except to express precedence:
   throw new InvalidOperationException();
   ```
 
-### TODO Whitespaces
+### Whitespaces
 
 #### Tabs vs. Spaces
 
-Always use spaces.
+Always use spaces with a tab and indent size of 4.
 
-#### Spaces
+Always replace tabs used for code formatting with spaces.
+
+#### TODO Spaces
 
 Always put *one* space before:
 
@@ -2186,7 +2188,7 @@ Never put spaces after:
 
 * Opening parentheses (`(`) of control statements (e.g. `if`, `for`).
 
-#### Empty lines
+#### TODO Empty lines
 
 Always put empty lines between (number of empty lines stated in parentheses):
 
@@ -2201,7 +2203,7 @@ Never put empty lines between:
 * A comment and the type or member its commenting/describing.
 * A curly brace and its outer or inner scope.
 
-#### Indentations
+#### TODO Indentations
 
 [TBD]
 
@@ -2284,6 +2286,10 @@ Operators
 
 
 ## TODO Templates
+
+Move block structures to here (braces, parenthesis)
+
+
 
 Classes
 
