@@ -1406,7 +1406,7 @@ namespace MyCompany.MyLibrary.Utilities
 }
 ```
 
-### Types
+### Type usage
 
 #### Type aliases
 
@@ -1536,6 +1536,55 @@ Incorrect:
 ```c#
 [ExportAttribute]
 public class BackupService {...}
+```
+
+### Generic constraints
+
+#### Separation
+
+Always separate generic type constraints into one dedicated line per type parameter.
+
+Correct:
+
+```c#
+public sealed class MyDictionary <TKey, TValue>
+	where TKey : class
+	where TValue : new()
+{...}
+```
+
+Incorrect:
+
+```c#
+public sealed class MyDictionary <TKey, TValue>	where TKey : class where TValue : new()
+{...}
+```
+
+#### Order
+
+Always use the following generic type constraint order (multiplicity stated in parentheses):
+
+1. `class`, `struct`, `unmanaged`, base class type (0...1)
+2. other type parameters (0...*)
+3. interface types (0...*)
+4. `new()` (0...1)
+
+Correct:
+
+```c#
+public sealed class ValueProxy <TValue, TProxy>
+	where TValue : class, TProxy, IDisposable
+	where TProxy : ProxyBase, new()
+{...}
+```
+
+Incorrect:
+
+```c#
+public sealed class ValueProxy <TValue, TProxy>
+	where TValue : IDisposable, TProxy, class
+	where TProxy : new(), ProxyBase
+{...}
 ```
 
 ### Variables
@@ -1758,55 +1807,6 @@ Incorrect:
 const int FifthPerfectNumber = 33550336;
 ```
 
-### Generic type constraints
-
-#### Separation
-
-Always separate generic type constraints into one dedicated line per type parameter.
-
-Correct:
-
-```c#
-public sealed class MyDictionary <TKey, TValue>
-	where TKey : class
-	where TValue : new()
-{...}
-```
-
-Incorrect:
-
-```c#
-public sealed class MyDictionary <TKey, TValue>	where TKey : class where TValue : new()
-{...}
-```
-
-#### Order
-
-Always use the following generic type constraint order (multiplicity stated in parentheses):
-
-1. `class`, `struct`, `unmanaged`, base class type (0...1)
-2. other type parameters (0...*)
-3. interface types (0...*)
-4. `new()` (0...1)
-
-Correct:
-
-```c#
-public sealed class ValueProxy <TValue, TProxy>
-	where TValue : class, TProxy, IDisposable
-	where TProxy : ProxyBase, new()
-{...}
-```
-
-Incorrect:
-
-```c#
-public sealed class ValueProxy <TValue, TProxy>
-	where TValue : IDisposable, TProxy, class
-	where TProxy : new(), ProxyBase
-{...}
-```
-
 ### Miscellaneous
 
 #### `goto`
@@ -1885,133 +1885,18 @@ public bool IsRunning { get; private set; }
 Always use curly braces with the following, even for one line code blocks:
 
 * `do`
-
-  ```c#
-  do
-  {
-      ...
-  } while (device.IsBusy)
-  ```
-
 * `while`
-
-  ```c#
-  while (device.IsBusy)
-  {
-      ...
-  }
-  ```
-
 * `if`, `else`
-
-  ```c#
-  if (orders.Count == 0)
-  {
-      ...
-  }
-  else
-  {
-      ...
-  }
-  ```
-
 * `for`
-
-  ```c#
-  for (int index = 0; index < this.Customers.Count; index++)
-  {
-      ...
-  }
-  ```
-
 * `foreach`
-
-  ```c#
-  foreach (var customer in this.Customers)
-  {
-      ...
-  }
-  ```
-
 * `switch`
-
-  ```c#
-  switch (args[0])
-  {
-  	...
-  }
-  ```
-
 * `fixed`
-
-  ```c#
-  fixed (int* p = &pt.x)
-  {
-      ...
-  }
-  ```
-
 * `lock`
-
-  ```c#
-  lock (this.SyncRoot)
-  {
-      ...
-  }
-  ```
-
 * `unsafe`
-
-  ```c#
-  unsafe
-  {
-      ...
-  }
-  ```
-
 * `using`
-
-  ```c#
-  using (MemoryStream ms = new MemoryStream())
-  {
-      ...
-  }
-  ```
-
 * `try`, `catch`, `finally`
-
-  ```c#
-  try
-  {
-      ...
-  }
-  catch
-  {
-      ...
-  }
-  finally
-  {
-      ...
-  }
-  ```
-
 * `checked`
-
-  ```c#
-  checked
-  {
-      ...
-  }
-  ```
-
 * `unchecked`
-
-  ```c#
-  unchecked
-  {
-      ...
-  }
-  ```
 
 #### Omitted braces
 
@@ -2019,25 +1904,7 @@ Never use curly braces with the following, even for multi line code blocks:
 
 * `case`
 
-  ```c#
-  switch (args[0])
-  {
-      case abc:
-          ...
-          break;
-  }
-  ```
-
 * `default`
-
-  ```c#
-  switch (args[0])
-  {
-      default:
-          ...
-          break;
-  }
-  ```
 
 ### Parenthesis
 
@@ -2068,46 +1935,12 @@ if (width * height + offset >= threshold)
 Always use parenthesis with the following:
 
 * `checked`
-
-  ```c#
-  checked(someValue + 10)
-  ```
-
 * `unchecked`
-
-* ```c#
-  checked(someValue + 10)
-  ```
-
-  `default`
-
-  ```c#
-  default(T)
-  ```
-
+* `default`
 * `nameof`
-
-  ```c#
-  nameof(this.SomeProperty)
-  ```
-
 * `sizeof`
-
-  ```c#
-  sizeof(int)
-  ```
-
 * `typeof`
-
-  ```c#
-  typeof(int)
-  ```
-
 * `catch`, `when`
-
-  ```c#
-  catch (HttpRequestException e) when (e.Message.Contains("404"))
-  ```
 
 #### Omitted parenthesis
 
@@ -2115,51 +1948,19 @@ Never use parenthesis with the following, except to express precedence:
 
 * `await`
 
-  ```c#
-  await someTask
-  ```
-
 * `stackalloc`
-
-  ```c#
-  stackalloc int[100]
-  ```
 
 * `case`, `when`
 
-  ```c#
-  case Rectangle r when r.Area > 0:
-  ```
-
 * `default`
-
-  ```c#
-  default:
-  ```
 
 * `goto`
 
-  ```c#
-  goto someLabel;
-  ```
-
 * `return`
-
-  ```c#
-  return someValue;
-  ```
 
 * `yield return`
 
-  ```c#
-  yield return someValue;
-  ```
-
 * `throw`
-
-  ```c#
-  throw new InvalidOperationException();
-  ```
 
 ### Whitespaces
 
@@ -2221,7 +2022,7 @@ Never increment the indentation level after:
 
 ### Language
 
-Always use proper English language for all names.
+Always use proper English language for all comments.
 
 ### TODO Usage
 
@@ -2286,6 +2087,269 @@ Operators
 
 
 ## TODO Templates
+
+Always use parenthesis with the following:
+
+- `checked`
+
+  ```c#
+  checked(someValue + 10)
+  ```
+
+- `unchecked`
+
+- ```c#
+  checked(someValue + 10)
+  ```
+
+  `default`
+
+  ```c#
+  default(T)
+  ```
+
+- `nameof`
+
+  ```c#
+  nameof(this.SomeProperty)
+  ```
+
+- `sizeof`
+
+  ```c#
+  sizeof(int)
+  ```
+
+- `typeof`
+
+  ```c#
+  typeof(int)
+  ```
+
+- `catch`, `when`
+
+  ```c#
+  catch (HttpRequestException e) when (e.Message.Contains("404"))
+  ```
+
+#### Omitted parenthesis
+
+Never use parenthesis with the following, except to express precedence:
+
+- `await`
+
+  ```c#
+  await someTask
+  ```
+
+- `stackalloc`
+
+  ```c#
+  stackalloc int[100]
+  ```
+
+- `case`, `when`
+
+  ```c#
+  case Rectangle r when r.Area > 0:
+  ```
+
+- `default`
+
+  ```c#
+  default:
+  ```
+
+- `goto`
+
+  ```c#
+  goto someLabel;
+  ```
+
+- `return`
+
+  ```c#
+  return someValue;
+  ```
+
+- `yield return`
+
+  ```c#
+  yield return someValue;
+  ```
+
+- `throw`
+
+  ```c#
+  throw new InvalidOperationException();
+  ```
+
+### 
+
+
+
+Always use curly braces with the following, even for one line code blocks:
+
+- `do`
+
+  ```c#
+  do
+  {
+      ...
+  } while (device.IsBusy)
+  ```
+
+- `while`
+
+  ```c#
+  while (device.IsBusy)
+  {
+      ...
+  }
+  ```
+
+- `if`, `else`
+
+  ```c#
+  if (orders.Count == 0)
+  {
+      ...
+  }
+  else
+  {
+      ...
+  }
+  ```
+
+- `for`
+
+  ```c#
+  for (int index = 0; index < this.Customers.Count; index++)
+  {
+      ...
+  }
+  ```
+
+- `foreach`
+
+  ```c#
+  foreach (var customer in this.Customers)
+  {
+      ...
+  }
+  ```
+
+- `switch`
+
+  ```c#
+  switch (args[0])
+  {
+  	...
+  }
+  ```
+
+- `fixed`
+
+  ```c#
+  fixed (int* p = &pt.x)
+  {
+      ...
+  }
+  ```
+
+- `lock`
+
+  ```c#
+  lock (this.SyncRoot)
+  {
+      ...
+  }
+  ```
+
+- `unsafe`
+
+  ```c#
+  unsafe
+  {
+      ...
+  }
+  ```
+
+- `using`
+
+  ```c#
+  using (MemoryStream ms = new MemoryStream())
+  {
+      ...
+  }
+  ```
+
+- `try`, `catch`, `finally`
+
+  ```c#
+  try
+  {
+      ...
+  }
+  catch
+  {
+      ...
+  }
+  finally
+  {
+      ...
+  }
+  ```
+
+- `checked`
+
+  ```c#
+  checked
+  {
+      ...
+  }
+  ```
+
+- `unchecked`
+
+  ```c#
+  unchecked
+  {
+      ...
+  }
+  ```
+
+#### Omitted braces
+
+Never use curly braces with the following, even for multi line code blocks:
+
+- `case`
+
+  ```c#
+  switch (args[0])
+  {
+      case abc:
+          ...
+          break;
+  }
+  ```
+
+- `default`
+
+  ```c#
+  switch (args[0])
+  {
+      default:
+          ...
+          break;
+  }
+  ```
+
+### 
+
+
+
+
 
 Move block structures to here (braces, parenthesis)
 
