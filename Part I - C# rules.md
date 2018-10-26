@@ -1,6 +1,10 @@
 # PART I - C# rules
 
-The rules in this part are C# programming language rules which define how the C# programming language is to be used, independent of used frameworks, libraries, architecture, design, functionality, and tools.
+The rules in this part specify how to use the C# programming language.
+
+Note: For compactness, most code examples only adhere to its associated rule, not to all rules.
+
+Note: The styling and formatting in the [Templates](#Templates) section overrules all other code examples.
 
 [TOC]
 
@@ -29,6 +33,7 @@ Always use UpperCamelCase without punctuation (e.g. `GetOrders`) for:
 
 - All type names
 - All type members, except private fields
+- Type parameters
 
 Always use lowerCamelCase (e.g. `orderTotal`) for:
 
@@ -36,7 +41,7 @@ Always use lowerCamelCase (e.g. `orderTotal`) for:
 - Local variables
 - Local constants
 - Local methods
-- Iteration variables (`for`, `foreach`)
+- Iteration variables
 - Constructor parameters
 - Method parameters
 - Lambda parameters
@@ -65,68 +70,6 @@ string strComment = "Test";
 string str_Comment = "Test";
 ```
 
-### Lengths
-
-Always choose names which are expressive enough and never unnecessarily shorten names.
-
-Correct:
-
-```c#
-public int GetItemCount (string temporaryFile) {...}
-```
-
-Incorrect:
-
-```c#
-public int GetItmCnt (string tmpFile) {...}
-```
-
-### Abbreviations
-
-Never use abbreviations unless they shorten excessive names and are well known.
-
-Correct:
-
-```c#
-int numberOfItems = 12;
-
-Encoding Utf8 { get; set; }
-```
-
-Incorrect:
-
-```c#
-int noItems = 12;
-
-Encoding UnicodeTransformationFormat8 { get; set; }
-```
-
-Always use proper casing for abbreviations, even for two letter abbreviations.
-
-Correct:
-
-```c#
-namespace MyCompany.MyProduct.Utilities.HwAbstraction {...}
-
-Encoding Utf8 { get; set; }
-```
-
-Incorrect:
-
-```c#
-namespace MyCompany.MyProduct.Utilities.HWAbstraction {...}
-
-Encoding UTF8 { get; set; }
-```
-
-Exception: The name `IO` can be used for I/O as this is also used in the .NET base class library.
-
-Example:
-
-```c#
-namespace MyCompany.MyProduct.Utilities.IO {...}
-```
-
 ### Meaning
 
 Always choose meaningful names which describe the intention and not type, size, or technical composition.
@@ -143,7 +86,7 @@ Incorrect:
 public Bitmap ProcessBytes (byte[] byteArray) {...}
 ```
 
-Exception: Technical composition can be part of a name if it is part of the intention (e.g. the same data available in two different formats used in data conversion).
+Exception: Technical composition can be part of a name if it is part of the intention.
 
 Example:
 
@@ -168,6 +111,69 @@ Incorrect:
 ```c#
 public bool IsNotAllowed { get; private set; }
 ```
+
+### Lengths
+
+Always choose names which are expressive enough and never unnecessarily shorten names.
+
+Correct:
+
+```c#
+public int GetItemCount (string temporaryFile) {...}
+```
+
+Incorrect:
+
+```c#
+public int GetItmCnt (string tmpFile) {...}
+```
+
+### Abbreviations
+
+#### Well known
+
+Never use abbreviations unless they shorten excessive names *and* are well known.
+
+Correct:
+
+```c#
+int itemCount = 12;
+
+Encoding Utf8 { get; set; }
+```
+
+Incorrect:
+
+```c#
+int itmCnt = 12;
+
+Encoding UnicodeTransformationFormat8 { get; set; }
+```
+
+#### Proper casing
+
+Always use proper casing for abbreviations, even for two letter abbreviations.
+
+Correct:
+
+```c#
+namespace MyCompany.MyProduct.Utilities.HwAbstraction {...}
+
+Encoding Utf8 { get; set; }
+```
+
+Incorrect:
+
+```c#
+namespace MyCompany.MyProduct.Utilities.HWAbstraction {...}
+
+Encoding UTF8 { get; set; }
+```
+
+Exceptions: The following two letter abbreviations can be use with all uppercases:
+
+* `IO` (I/O, Input/Output)
+* `UI` (User Interface)
 
 ### Prefixes
 
@@ -309,7 +315,7 @@ Never use suffixes (e.g. `someText_str`, `MyClassC`), except for cases described
 
 #### Base types
 
-Always suffix the name of an abstract type which provides default interface implementation with `Base`.
+Always suffix the name of an abstract type *which provides default interface implementation* with `Base`.
 
 Correct:
 
@@ -327,9 +333,9 @@ public abstract class Device : IDevice {...}
 
 Always suffix the name of a type which provides extension methods with `Extensions`.
 
-Always use the full name, also for interface type extensions.
+Always use the full name of the extended type, even for interface type extensions.
 
-Never use type aliases, also for well known type extensions.
+Never use type aliases, also for well known extended types.
 
 Correct:
 
@@ -544,6 +550,30 @@ Utilities.dll
 MyLibrary.Utilities.dll
 ```
 
+#### Depth
+
+Never use increasing depth of names for assemblies which belong together.
+
+Correct:
+
+```c#
+MyCompany.MyProduct.UserInterface.Common.dll
+MyCompany.MyProduct.UserInterface.Controls.dll
+MyCompany.MyProduct.UserInterface.Views.Common.dll
+MyCompany.MyProduct.UserInterface.Views.Customers.dll
+MyCompany.MyProduct.UserInterface.Views.Products.dll
+```
+
+Incorrect:
+
+```c#
+MyCompany.MyProduct.UserInterface.dll
+MyCompany.MyProduct.UserInterface.Controls.dll
+MyCompany.MyProduct.UserInterface.Views.dll
+MyCompany.MyProduct.UserInterface.Views.Customers.dll
+MyCompany.MyProduct.UserInterface.Views.Products.dll
+```
+
 ### Namespaces
 
 #### Conflicts
@@ -754,17 +784,15 @@ Always use a name which indicates whether a method has a return value and if it 
 Correct:
 
 ```c#
-public Response Send (Message message) {...}
-
-public SendOperation Post (Message message) {...}
+//class: Application
+public static Task BeginTermination () {...}
 ```
 
 Incorrect:
 
 ```c#
-public Response Post (Message message) {...} //Post might not imply a response...
-
-public SendOperation Send (Message message) {...} //Send might imply a response...
+//class: Application
+public static Task Terminate () {...} //implies immediate termination
 ```
 
 ### Properties, Fields, Constants
@@ -914,8 +942,6 @@ for (int i = 0; i < orders.Count; i++)
 
 ## Styling
 
-*See also [Templates](#Templates) for detailed reference*
-
 ### Source code files
 
 #### File structure
@@ -1000,8 +1026,9 @@ Never put more than one type in a source code file.
 
 Exceptions:
 
-- Nested types (more than one type per source code file).
-- Partial classes (one type spread over more than one source code file).
+- Nested types (more than one type).
+- Generic types (more than one type; same type name but different generic type arguments).
+- Partial types (one type spread over more than one source code file).
 
 ### `extern alias` directives
 
@@ -1540,26 +1567,6 @@ public class BackupService {...}
 
 ### Generic constraints
 
-#### Separation
-
-Always separate generic type constraints into one dedicated line per type parameter.
-
-Correct:
-
-```c#
-public sealed class MyDictionary <TKey, TValue>
-	where TKey : class
-	where TValue : new()
-{...}
-```
-
-Incorrect:
-
-```c#
-public sealed class MyDictionary <TKey, TValue>	where TKey : class where TValue : new()
-{...}
-```
-
 #### Order
 
 Always use the following generic type constraint order (multiplicity stated in parentheses):
@@ -1586,6 +1593,52 @@ public sealed class ValueProxy <TValue, TProxy>
 	where TProxy : new(), ProxyBase
 {...}
 ```
+
+#### Separation
+
+Always separate generic type constraints into one dedicated line per type parameter.
+
+Correct:
+
+```c#
+public sealed class MyDictionary <TKey, TValue>
+	where TKey : class
+	where TValue : new()
+{...}
+```
+
+Incorrect:
+
+```c#
+public sealed class MyDictionary <TKey, TValue>	where TKey : class where TValue : new()
+{...}
+```
+
+### Modifiers
+
+#### Order
+
+Always use the following modifier order:
+
+1. `public`, `private`, `protected`, `internal`
+2. `new`
+3. `abstract`
+4. `virtual`
+5. `sealed`
+6. `override`
+7. `static`
+8. `readonly`, `ref`
+9. `extern`
+10. `unsafe`
+11. `volatile`
+12. `async`
+13. `partial`
+
+#### `partial`
+
+Never use `partial` types or methods.
+
+Exception: If the code for a type is not fully but partially auto-generated.
 
 ### Variables
 
@@ -1735,7 +1788,7 @@ Incorrect:
 this.OnPropertyChanged("UserName");
 ```
 
-#### `this` and `base`
+#### `this`, `base`
 
 Always use `this` or `base` to access instance members (including constructors) from inside the type.
 
@@ -1807,49 +1860,102 @@ Incorrect:
 const int FifthPerfectNumber = 33550336;
 ```
 
-### Miscellaneous
+#### Prefer expressions
+
+Always use the lambda expression statement form if possible for:
+
+* Constructors
+* Finalizers
+* Methods
+* Properties (getter and setter)
+
+Correct:
+
+```c#
+public override string ToString() => this.Name;
+
+public string Address => this._address ?? string.Empty;
+
+public string Name
+{
+	get => this._name;
+	set => this._name = value ?? "[Unknown]";
+}
+```
+
+Incorrect:
+
+```c#
+public override string ToString()
+{
+    return this.Name;
+}
+
+public string Address
+{
+	get
+    {
+    	return this._address ?? string.Empty;
+    }
+}
+
+public string Name
+{
+	get
+    {
+    	return this._name;
+    }
+    set
+    {
+    	this._name = value ?? "[Unknown]";
+    }
+}
+```
+
+### Statements
 
 #### `goto`
 
 Never use `goto`.
 
-#### `partial`
+Exceptions:
 
-Never use `partial` types or methods.
-
-Exception: If the code for a type is not fully but partially auto-generated.
-
-#### Modifier order
-
-Always use the following modifier order:
-
-1. `public`, `private`, `protected`, `internal`
-2. `new`
-3. `abstract`
-4. `virtual`
-5. `sealed`
-6. `override`
-7. `static`
-8. `readonly`, `ref`
-9. `extern`
-10. `unsafe`
-11. `volatile`
-12. `async`
-13. `partial`
-
-#### LINQ queries/extensions
-
-Never mix LINQ queries and LINQ extension methods.
-
-#### Prefer expressions
-
-Always use the expression statement form if possible (see [Templates](#Templates)).
+* To go out of deeply nested loops.
+* To jump to another `case` of the same `switch` using `goto case ...`.
 
 ## Formatting
 
-*See also [Templates](#Templates) for detailed reference*
-
 ### Braces
+
+#### Used braces
+
+*See [Templates](#Templates) section for examples*
+
+Always use curly braces with the following, even for one line code blocks:
+
+* `do`
+* `while`
+* `if`, `else`
+* `for`
+* `foreach`
+* `switch`
+* `fixed`
+* `lock`
+* `try`, `catch`, `finally`
+* `using` (the statement, not the directive)
+* `unsafe` (the statement, not the modifier)
+* `checked` (the statement, not the expression)
+* `unchecked` (the statement, not the expression)
+
+#### Omitted braces
+
+*See [Templates](#Templates) section for examples*
+
+Never use curly braces with the following, even for multi line code blocks:
+
+* `case`
+
+* `default` (the `switch` label, not the expression)
 
 #### Separate lines
 
@@ -1872,7 +1978,7 @@ if (orders.Count == 0) {
 }
 ```
 
-Exception: Automatic properties.
+Exception: Auto properties.
 
 Example:
 
@@ -1880,33 +1986,41 @@ Example:
 public bool IsRunning { get; private set; }
 ```
 
-#### Used braces
-
-Always use curly braces with the following, even for one line code blocks:
-
-* `do`
-* `while`
-* `if`, `else`
-* `for`
-* `foreach`
-* `switch`
-* `fixed`
-* `lock`
-* `unsafe`
-* `using`
-* `try`, `catch`, `finally`
-* `checked`
-* `unchecked`
-
-#### Omitted braces
-
-Never use curly braces with the following, even for multi line code blocks:
-
-* `case`
-
-* `default`
-
 ### Parenthesis
+
+#### Used parenthesis
+
+*See [Templates](#Templates) section for examples*
+
+Always use parenthesis with the following:
+
+* `nameof`
+* `sizeof`
+* `typeof`
+* `catch`, `when`
+* `checked` (the expression, not the statement)
+* `unchecked` (the expression, not the statement)
+* `default` (the expression, not the `switch` label)
+
+#### Omitted parenthesis
+
+*See [Templates](#Templates) section for examples*
+
+Never use parenthesis with the following, except to express precedence where applicable:
+
+* `await`
+
+* `stackalloc`
+
+* `case`, `when`
+
+* `goto`
+
+* `return`
+
+* `yield return`
+
+* `throw`
 
 #### Explicit operator precedence
 
@@ -1930,38 +2044,6 @@ if (width * height + offset >= threshold)
 }
 ```
 
-#### Used parenthesis
-
-Always use parenthesis with the following:
-
-* `checked`
-* `unchecked`
-* `default`
-* `nameof`
-* `sizeof`
-* `typeof`
-* `catch`, `when`
-
-#### Omitted parenthesis
-
-Never use parenthesis with the following, except to express precedence:
-
-* `await`
-
-* `stackalloc`
-
-* `case`, `when`
-
-* `default`
-
-* `goto`
-
-* `return`
-
-* `yield return`
-
-* `throw`
-
 ### Whitespaces
 
 #### Tabs vs. Spaces
@@ -1972,37 +2054,47 @@ Always replace tabs used for code formatting with spaces.
 
 #### TODO Spaces
 
-Always put *one* space before:
+Always put *one* space...
 
-* Opening parentheses (`(`) of control statements (e.g. `if`, `for`).
-* Binary operators (e.g. `==`, `+`).
+* ...around `=>`.
+* ...around `:` in type declarations.
+* ...around `:` in generic type constraints.
+* ...around non-unary operators.
+* ...around assignment operators.
+* ...around curly braces of auto properties.
+* ...between the member name and the `(` argument parameter list (declaration).
+* ...between the member name and the `<` type parameter list (declaration).
+* ...between the member name and the `[` indexer parameter list (declaration).
+* ...after argument parameter separator `,`
+* ...after type parameter separator `,`
+* ...after inheritance separator `,`.
+* ....after constraint separator `,`.
 
-Never put spaces before:
+Always put *one level of tab sized* spaces (one indentation level)...
 
-* Closing parentheses (`)`) of control statements (e.g. `if`, `for`).
+* ...before `where ` generic type constraints.
+* ...before `base` and `this` in constructor declarations.
 
-Always put *one* space after:
+Never put *any* space...
 
-* Binary operators (e.g. `==`, `+`).
-
-Never put spaces after:
-
-* Opening parentheses (`(`) of control statements (e.g. `if`, `for`).
-
-#### TODO Empty lines
-
-Always put empty lines between (number of empty lines stated in parentheses):
-
-* File header and `using` groups (4).
-* `using` groups with different namespace roots (1).
-* `using` groups and the `namespace` declaration (4).
-* Each member (including nested types) of a type; comments are considered part of the member (1).
-* Two regions (1).
-
-Never put empty lines between:
-
-* A comment and the type or member its commenting/describing.
-* A curly brace and its outer or inner scope.
+* ...around `:` in case labels.
+* ...around `[` and`]` for attributes.
+* ...between unary operator and operand.
+* ...between the member name and the `(` argument parameter list (usage).
+* ...between the member name and the `<` type parameter list (usage).
+* ...between the member name and the `[` indexer parameter list (usage).
+* ...between `new` and `()` in `new()` generic constraint.
+* ...before the first parameter.
+* ...before argument parameter separator `,`.
+* ...before type parameter separator `,`.
+* ...before inheritance separator `,`.
+* ...before constraint separator `,`.
+* ...before enumeration member separator `,`.
+* ...before `;`.
+* ...before `[]` or `[...]` for arrays.
+* ...inside `[]` or `[...]` for arrays.
+* ...after the last parameter.
+* ...after `base` and `this` in constructor declarations.
 
 #### TODO Indentations
 
@@ -2010,15 +2102,36 @@ Never put empty lines between:
 
 Always increment the indentation level after:
 
-* `namespace`
+- `namespace`
 
 Never increment the indentation level after:
 
-* `#region`
+- `#region`
+
+#### TODO Empty lines
+
+Always put empty lines between (number of empty lines stated in parentheses)...
+
+* (4) ...file header and `using` groups.
+* (1) ...`using` groups with different namespace roots.
+* (4) ...`using` groups and the `namespace` declaration.
+* (1) ...each member (including nested types) of a type; comments are considered part of the member.
+* (1) ...two regions.
+
+Never put empty lines between:
+
+* A comment and the type or member its commenting/describing.
+* A curly brace and its outer or inner scope.
+
+#### Trailing whitespace
+
+Never have any trailing whitespace on a line before the carriage return or line feed.
+
+#### Trailing empty line
+
+Always have exactly one empty line at the end of the file (so the file ends with a line feed).
 
 ## Commenting
-
-*See also [Templates](#Templates) for detailed reference*
 
 ### Language
 
@@ -2152,12 +2265,6 @@ Never use parenthesis with the following, except to express precedence:
 
   ```c#
   case Rectangle r when r.Area > 0:
-  ```
-
-- `default`
-
-  ```c#
-  default:
   ```
 
 - `goto`
