@@ -1,10 +1,8 @@
-# PART I - C# rules
+# PART I - C# Rules
 
 The rules in this part specify how to use the C# programming language.
 
-Note: For compactness, most code examples only adhere to its associated rule, not to all rules.
-
-Note: The styling and formatting in the [Templates](#Templates) section overrules all other code examples.
+For compactness, most code examples only adhere to its associated rule, not to all rules.
 
 [TOC]
 
@@ -2433,6 +2431,8 @@ Operators
 
 
 ## TODO Templates
+
+The styling and formatting in this section overrules all other code examples.
 
 Always use parenthesis with the following:
 

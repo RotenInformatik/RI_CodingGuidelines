@@ -1,6 +1,6 @@
-# PART II - .NET rules
+# PART II - .NET Usage Rules
 
-The rules in this part are rules which define how some of the functionality of the .NET base class library is to be used, independent of the used programming language.
+The rules in this part specify how to use existing types from the .NET class libraries.
 
 [TOC]
 
