@@ -1921,7 +1921,11 @@ Never use `goto`.
 Exceptions:
 
 * To go out of deeply nested loops.
-* To jump to another `case` of the same `switch` using `goto case ...`.
+* To jump to another `case` of the same `switch` using `goto case`.
+
+### TODO Enumerations
+
+
 
 ## Formatting
 
@@ -2052,76 +2056,305 @@ Always use spaces with a tab and indent size of 4.
 
 Always replace tabs used for code formatting with spaces.
 
-#### TODO Spaces
+#### Spaces
 
 Always put *one* space...
 
 * ...around `=>`.
-* ...around `:` in type declarations.
-* ...around `:` in generic type constraints.
-* ...around non-unary operators.
-* ...around assignment operators.
-* ...around curly braces of auto properties.
-* ...between the member name and the `(` argument parameter list (declaration).
-* ...between the member name and the `<` type parameter list (declaration).
-* ...between the member name and the `[` indexer parameter list (declaration).
-* ...after argument parameter separator `,`
-* ...after type parameter separator `,`
-* ...after inheritance separator `,`.
-* ....after constraint separator `,`.
 
-Always put *one level of tab sized* spaces (one indentation level)...
+  ```c#
+  Action<string> log = x => Console.WriteLine(x);
+  ```
+
+* ...around `:` in type declarations.
+
+  ```c#
+  public sealed class IceCreamMachine : IFoodDispenser { ...}
+  ```
+
+* ...around `:` in generic type constraints.
+
+  ```c#
+  public sealed class RandomList<T>
+   where T : new()
+  {...}
+  ```
+
+* ...around `:` in constructor declarations.
+
+  ```c#
+  public IceCreamMachine (MachineController controller)
+   : base(controller)
+  {...}
+  
+  public IceCreamMachine ()
+   : this(null)
+  {...}
+  ```
+
+* ...around non-unary operators.
+
+  ```c#
+  int x = a + b;
+  int y = x >= 0 ? x * 10 : x * 20;
+  ```
+
+* ...around assignment operators.
+
+  ```c#
+  int x = a + b;
+  x += 42;
+  ```
+
+* ...around curly braces of auto properties.
+
+  ```c#
+  public string Name { get; private set; }
+  ```
+
+* ...between the member name and the `(` argument parameter list (declaration).
+
+  ```c#
+  public Response DownloadFile (Request request) {...}
+  ```
+
+* ...between the member name and the `<` type parameter list (declaration).
+
+  ```c#
+  public T GetExport <T> () {...}
+  ```
+
+* ...between the member name and the `[` indexer parameter list (declaration).
+
+  ```c#
+  public string this [int index] {...}
+  ```
 
 * ...before `where ` generic type constraints.
+
+  ```c#
+  public sealed class RandomList<T> : IList<T>, IList
+   where T : new()
+  {...}
+  ```
+
 * ...before `base` and `this` in constructor declarations.
+
+  ```c#
+  public IceCreamMachine (MachineController controller)
+   : base(controller)
+  {...}
+  
+  public IceCreamMachine ()
+   : this(null)
+  {...}
+  ```
+
+* ...after argument parameter separator `,`.
+
+  ```c#
+  public Response DownloadFile (Request request, TimeSpan timeout) {...}
+  ```
+
+* ...after type parameter separator `,`.
+
+  ```c#
+  Dictionary<string, string> dictionary = new Dictionary<string, string>();
+  ```
+
+* ...after inheritance separator `,`.
+
+  ```c#
+  public sealed class RandomList<T> : IList<T>, IList
+   where T : new()
+  {...}
+  ```
+
+* ...after constraint separator `,`.
+
+  ```c#
+  public sealed class ClonePool<T>
+   where T : ICloneable, new()
+  {...}
+  ```
 
 Never put *any* space...
 
 * ...around `:` in case labels.
+
+  ```c#
+  switch (...)
+  {
+      default:
+      	break;
+      
+      case 123:
+      	break;
+  }
+  ```
+
 * ...around `[` and`]` for attributes.
+
+  ```c#
+  [Export]
+  public class BackupService {...}
+  ```
+
 * ...between unary operator and operand.
+
+  ```c#
+  int x = a++;
+  ```
+
 * ...between the member name and the `(` argument parameter list (usage).
+
+  ```c#
+  connection.Send(message);
+  ```
+
 * ...between the member name and the `<` type parameter list (usage).
+
+  ```c#
+  BackupService backupService = container.GetExport<BackupService>();
+  ```
+
 * ...between the member name and the `[` indexer parameter list (usage).
+
+  ```c#
+  Customer firstCustomer = customers[0];
+  ```
+
 * ...between `new` and `()` in `new()` generic constraint.
+
+  ```c#
+  public sealed class ClonePool<T>
+   where T : ICloneable, new()
+  {...}
+  ```
+
 * ...before the first parameter.
+
+  ```c#
+  Response response = connection.DownloadFile(request, 1000);
+  ```
+
 * ...before argument parameter separator `,`.
+
+  ```c#
+  public Response DownloadFile (Request request, TimeSpan timeout) {...}
+  ```
+
 * ...before type parameter separator `,`.
+
+  ```c#
+  Dictionary<string, string> dictionary = new Dictionary<string, string>();
+  ```
+
 * ...before inheritance separator `,`.
+
+  ```c#
+  public sealed class RandomList<T> : IList<T>, IList
+   where T : new()
+  {...}
+  ```
+
 * ...before constraint separator `,`.
+
+  ```c#
+  public sealed class ClonePool<T>
+   where T : ICloneable, new()
+  {...}
+  ```
+
 * ...before enumeration member separator `,`.
+
+  ```c#
+  public enum DeviceState
+  {
+      Idle = 0,
+      Running = 1,
+      Error = 2,
+  }
+  ```
+
 * ...before `;`.
+
+  ```c#
+  int x = a + b;
+  ```
+
 * ...before `[]` or `[...]` for arrays.
+
+  ```c#
+  byte[] buffer = new byte[1024];
+  ```
+
 * ...inside `[]` or `[...]` for arrays.
+
+  ```c#
+  byte[] buffer = new byte[1024];
+  ```
+
 * ...after the last parameter.
+
+  ```c#
+  Response response = connection.DownloadFile(request, 1000);
+  ```
+
 * ...after `base` and `this` in constructor declarations.
 
-#### TODO Indentations
+  ```c#
+  public IceCreamMachine (MachineController controller)
+   : base(controller)
+  {...}
+  
+  public IceCreamMachine ()
+   : this(null)
+  {...}
+  ```
 
-[TBD]
+#### Indentations
 
-Always increment the indentation level after:
+Always increment the indentation level...
 
-- `namespace`
+- ...after opening curly braces `{`.
+- ...after `case` or `default` label.
+- ...after first line of multiline statement.
 
-Never increment the indentation level after:
+Always decrement the indentation level...
 
-- `#region`
+- ...before closing curly braces `}`.
+- ...after `case` block.
+- ...after last line of multiline statement.
 
-#### TODO Empty lines
+Never change indentation level...
 
-Always put empty lines between (number of empty lines stated in parentheses)...
+* ...after `#region`.
 
-* (4) ...file header and `using` groups.
-* (1) ...`using` groups with different namespace roots.
-* (4) ...`using` groups and the `namespace` declaration.
-* (1) ...each member (including nested types) of a type; comments are considered part of the member.
-* (1) ...two regions.
+#### Empty lines
 
-Never put empty lines between:
+Always put *one* empty line between...
 
-* A comment and the type or member its commenting/describing.
-* A curly brace and its outer or inner scope.
+* ...any of the following at a file level:
+  * `extern alias` groups.
+  * `using` groups with different namespace roots.
+  * `using static` groups with different namespace roots.
+  * `namespace`.
+* ...any of the following inside a type:
+  * Regions.
+  * Members.
+  * Nested types.
+* ...`#region` and the region content.
+* ...the region content and `#region`.
+* ...`enum` members.
+
+Never put *any* empty line between...
+
+* ...a comment and the type or member its describing.
+  Note: A comment is considered part of the type or member.
+* ...a curly brace (`{`, `}`) and its outer or inner scope.
+* ...a type or member declaration and its generic type constraints.
+* ...a constructor declaration and its `base` or `this` calls.
 
 #### Trailing whitespace
 
