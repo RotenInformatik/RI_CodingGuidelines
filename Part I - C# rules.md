@@ -1921,9 +1921,83 @@ Exceptions:
 * To go out of deeply nested loops.
 * To jump to another `case` of the same `switch` using `goto case`.
 
-### TODO Enumerations
+#### `do...while`
 
+Always put the `while` statement of a `do...while` loop on the same line as the closing curly brace `}`.
 
+Correct:
+
+```c#
+do (...)
+{
+    ...
+} while (...)
+```
+
+Incorrect:
+
+```c#
+do (...)
+{
+    ...
+}
+while (...)
+```
+
+### Enumerations
+
+#### One member per line
+
+Never put more than one `enum` member on the same line.
+
+Correct:
+
+```c#
+public enum DeviceState
+{
+    Unknown = 0,
+    Off = 1,
+    Idle = 2,
+    Working = 3,
+}
+```
+
+Incorrect:
+
+```c#
+public enum DeviceState
+{
+    Unknown, Off, Idle, Working
+}
+```
+
+#### Member ending consistency
+
+Always end each `enum` member with the `enum` member separator `,`.
+
+Correct:
+
+```c#
+public enum DeviceState
+{
+    Unknown = 0,
+    Off = 1,
+    Idle = 2,
+    Working = 3,
+}
+```
+
+Incorrect:
+
+```c#
+public enum DeviceState
+{
+    Unknown = 0,
+    Off = 1,
+    Idle = 2,
+    Working = 3
+}
+```
 
 ## Formatting
 
@@ -2176,6 +2250,15 @@ Always put *one* space...
   {...}
   ```
 
+* ...after a control or block statement and its opening parenthesis `(`.
+
+  ```c#
+  if (...) {...}
+  foreach (...) {...}
+  lock (...) {...}
+  using (...) {...}
+  ```
+
 Never put *any* space...
 
 * ...around `:` in case labels.
@@ -2311,6 +2394,14 @@ Never put *any* space...
   {...}
   ```
 
+* ...after a single line statement or expression and its opening parenthesis `(`.
+
+  ```c#
+  sizeof(...)
+  typeof(...)
+  checked(...)
+  ```
+
 #### Indentations
 
 Always increment the indentation level...
@@ -2368,11 +2459,25 @@ Always have exactly one empty line at the end of the file (so the file ends with
 
 Always use proper English language for all comments.
 
-### TODO Usage
+### Usage
 
-[TBD]
+Always use comments for the following, never for anything else:
+
+* To describe public types and members as part of the API documentation.
+* To describe non-obvious or unexpected behaviour.
+* To describe non-obvious or complex code structures.
+* To provide additional explanation about *why* and *how*.
+* To provide references and links to additional documentation.
+
+### TODO Regular comments
+
+
 
 ### TODO XML comments
+
+General
+
+
 
 Namespaces
 
