@@ -1285,7 +1285,7 @@ Always use regions to group members of a type, where each kind of member has its
 - Static methods
 - Operators
 - Instance constructors
-- Instance destructor
+- Instance finalizers
 - Instance fields
 - Instance indexer
 - Instance properties
@@ -1944,6 +1944,40 @@ do (...)
 while (...)
 ```
 
+#### `switch`, `default`
+
+Always put the default block at the beginning of a switch block.
+
+Correct:
+
+```c#
+switch (args[0])
+{
+    default:
+        ...
+        break;
+
+    case abc:
+        ...
+        break;
+}
+```
+
+Incorrect:
+
+```c#
+switch (args[0])
+{
+    case abc:
+        ...
+        break;
+
+    default:
+        ...
+        break;
+}
+```
+
 ### Enumerations
 
 #### One member per line
@@ -2009,7 +2043,7 @@ public enum DeviceState
 
 Always use curly braces with the following, even for one line code blocks:
 
-* `do`
+* `do...while`
 * `while`
 * `if`, `else`
 * `for`
@@ -2463,71 +2497,74 @@ Always use proper English language for all comments.
 
 Always use comments for the following, never for anything else:
 
-* To describe public types and members as part of the API documentation.
+* To describe public namespaces, types, and members as part of the API documentation.
 * To describe non-obvious or unexpected behaviour.
 * To describe non-obvious or complex code structures.
 * To provide additional explanation about *why* and *how*.
 * To provide references and links to additional documentation.
 
-### TODO Regular comments
+### Regular comments
 
+Always use regular comments (`//`, `/**/`) inside code blocks (e.g. method bodies) but never outside.
 
+### XML comments
 
-### TODO XML comments
+#### General
 
-General
+Always use XML comments (`///`) outside code blocks (e.g. method declarations) but never inside.
 
+Always follow the additional rules as described below and the formatting as shown in [Templates](#Templates).
 
+#### Documentation file
 
-Namespaces
+Always use the `doc` compiler parameter to generate an XML documentation file for each assembly.
 
+Always name the XML documentation file the same as the corresponding assembly, except the extension.
 
+#### Documentation tool
 
-Classes and Structs
+Always define the XML comments in a way which supports the selected documentation tool.
 
+Ensure that the entire organization uses the same documentation tool.
 
+Sandcastle Help File Builder (SHFB) is the recommended documentation tool and therefore the following rules for XML comments adhere to the style and possibilities of SHFB.
 
-Enumerations
+#### Namespaces
 
+Always use a source code file named *_NamespaceDoc.cs* once per namespace to document it.
 
+If a namespace is defined in more than one assembly, put *_NamespaceDoc.cs* in the assembly which is at the top of the dependency tree. If a namespace is defined in multiple assemblies not depending on each other, put a separate *_NamespaceDoc.cs* in each assembly.
 
-Delegates
+The content of a *_NamespaceDoc.cs* source code file must look like the following:
 
+```c#
+using System.Runtime.CompilerServices;
 
+namespace MyCompany.MyProduct.MyComponent.SomeNamespace
+{
+	/// <summary>
+	///    Contains some utilities for blah and foobar.
+	/// </summary>
+	[CompilerGenerated]
+	public sealed class NamespaceDoc
+	{
+	}
+}
+```
 
-Constants
+Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 
+* The source code file must be named *_NamespaceDoc.cs*.
+* The source code file must not contain any other namespaces or types as described here.
+* The source code file must contain a class named *NamespaceDoc* inside the described namespace.
+* The class *NamespaceDoc* must be `public` and `sealed`.
+* The class *NamespaceDoc* must not derive from a class (except `object`) or implement any interface.
+* The class *NamespaceDoc* must not implement any members.
+* The class *NamespaceDoc* must have the `CompilerGenerated` attribute.
+* The class *NamespaceDoc* must have only and exactly one `summary` XML comment.
+* The `summary` XML comment must start with *Contains* and should be only one sentence.
 
-
-Constructors
-
-
-
-Destructors
-
-
-
-Fields
-
-
-
-Indexer
-
-
-
-Properties
-
-
-
-Events
-
-
-
-Methods
-
-
-
-Operators
+#### TODO
 
 
 
@@ -2539,284 +2576,260 @@ Operators
 
 The styling and formatting in this section overrules all other code examples.
 
-Always use parenthesis with the following:
+### Expressions
 
-- `checked`
+#### `checked`
 
-  ```c#
-  checked(someValue + 10)
-  ```
+```c#
+checked(someValue + 10)
+```
 
-- `unchecked`
+#### `unchecked`
 
-- ```c#
-  checked(someValue + 10)
-  ```
+```c#
+unchecked(someValue + 10)
+```
 
-  `default`
+#### `default`
 
-  ```c#
-  default(T)
-  ```
+```c#
+default(T)
+```
 
-- `nameof`
+#### `nameof`
 
-  ```c#
-  nameof(this.SomeProperty)
-  ```
+```c#
+nameof(this.SomeProperty)
+```
 
-- `sizeof`
+#### `sizeof`
 
-  ```c#
-  sizeof(int)
-  ```
+```c#
+sizeof(int)
+```
 
-- `typeof`
+#### `typeof`
 
-  ```c#
-  typeof(int)
-  ```
+```c#
+typeof(int)
+```
 
-- `catch`, `when`
+#### `await`
 
-  ```c#
-  catch (HttpRequestException e) when (e.Message.Contains("404"))
-  ```
+```c#
+await someTask
+```
 
-#### Omitted parenthesis
+#### `stackalloc`
 
-Never use parenthesis with the following, except to express precedence:
+```c#
+stackalloc int[100]
+```
 
-- `await`
+### Statements
 
-  ```c#
-  await someTask
-  ```
+#### `throw`
 
-- `stackalloc`
+```c#
+throw new InvalidOperationException();
+```
 
-  ```c#
-  stackalloc int[100]
-  ```
+#### `catch`, `when`
 
-- `case`, `when`
+```c#
+catch (HttpRequestException e) when (e.Message.Contains("404"))
+```
 
-  ```c#
-  case Rectangle r when r.Area > 0:
-  ```
+#### `case`, `when`
 
-- `goto`
+```c#
+case Rectangle r when r.Area > 0:
+```
 
-  ```c#
-  goto someLabel;
-  ```
+#### `goto`
 
-- `return`
+```c#
+goto someLabel;
+```
 
-  ```c#
-  return someValue;
-  ```
+#### `return`
 
-- `yield return`
+```c#
+return someValue;
+```
 
-  ```c#
-  yield return someValue;
-  ```
+#### `yield return`
 
-- `throw`
+```c#
+yield return someValue;
+```
 
-  ```c#
-  throw new InvalidOperationException();
-  ```
+### Blocks
 
-### 
+#### `do...while`
 
+```c#
+do
+{
+    ...
+} while (device.IsBusy)
+```
 
+#### `while`
 
-Always use curly braces with the following, even for one line code blocks:
+```c#
+while (device.IsBusy)
+{
+    ...
+}
+```
+
+#### `if`, `else`
+
+```c#
+if (orders.Count == 0)
+{
+    ...
+}
+else
+{
+    ...
+}
+```
+
+#### `for`
+
+```c#
+for (int index = 0; index < this.Customers.Count; index++)
+{
+    ...
+}
+```
+
+#### `foreach`
+
+```c#
+foreach (var customer in this.Customers)
+{
+    ...
+}
+```
+
+#### `switch`, `default`, `case`
+
+```c#
+switch (args[0])
+{
+    default:
+        ...
+        break;
 
-- `do`
+    case abc:
+        ...
+        break;
 
-  ```c#
-  do
-  {
-      ...
-  } while (device.IsBusy)
-  ```
-
-- `while`
-
-  ```c#
-  while (device.IsBusy)
-  {
-      ...
-  }
-  ```
-
-- `if`, `else`
-
-  ```c#
-  if (orders.Count == 0)
-  {
-      ...
-  }
-  else
-  {
-      ...
-  }
-  ```
-
-- `for`
-
-  ```c#
-  for (int index = 0; index < this.Customers.Count; index++)
-  {
-      ...
-  }
-  ```
-
-- `foreach`
-
-  ```c#
-  foreach (var customer in this.Customers)
-  {
-      ...
-  }
-  ```
-
-- `switch`
-
-  ```c#
-  switch (args[0])
-  {
-  	...
-  }
-  ```
-
-- `fixed`
-
-  ```c#
-  fixed (int* p = &pt.x)
-  {
-      ...
-  }
-  ```
-
-- `lock`
+    case xyz:
+        ...
+        break;
+}
+```
 
-  ```c#
-  lock (this.SyncRoot)
-  {
-      ...
-  }
-  ```
+#### `fixed`
 
-- `unsafe`
+```c#
+fixed (int* p = &pt.x)
+{
+    ...
+}
+```
 
-  ```c#
-  unsafe
-  {
-      ...
-  }
-  ```
+#### `lock`
 
-- `using`
+```c#
+lock (this.SyncRoot)
+{
+    ...
+}
+```
 
-  ```c#
-  using (MemoryStream ms = new MemoryStream())
-  {
-      ...
-  }
-  ```
+#### `unsafe`
 
-- `try`, `catch`, `finally`
+```c#
+unsafe
+{
+    ...
+}
+```
 
-  ```c#
-  try
-  {
-      ...
-  }
-  catch
-  {
-      ...
-  }
-  finally
-  {
-      ...
-  }
-  ```
+#### `using`
 
-- `checked`
+```c#
+using (MemoryStream ms = new MemoryStream())
+{
+    ...
+}
+```
 
-  ```c#
-  checked
-  {
-      ...
-  }
-  ```
+#### `try`, `catch`, `finally`
 
-- `unchecked`
+```c#
+try
+{
+    ...
+}
+catch
+{
+    ...
+}
+finally
+{
+    ...
+}
+```
 
-  ```c#
-  unchecked
-  {
-      ...
-  }
-  ```
+#### `checked`
 
-#### Omitted braces
+```c#
+checked
+{
+    ...
+}
+```
 
-Never use curly braces with the following, even for multi line code blocks:
+#### `unchecked`
 
-- `case`
+```c#
+unchecked
+{
+    ...
+}
+```
 
-  ```c#
-  switch (args[0])
-  {
-      case abc:
-          ...
-          break;
-  }
-  ```
+### Types
 
-- `default`
+`class`
 
-  ```c#
-  switch (args[0])
-  {
-      default:
-          ...
-          break;
-  }
-  ```
 
-### 
 
+`struct`
 
 
 
+`interface`
 
-Move block structures to here (braces, parenthesis)
 
 
+`enum`
 
-Classes
 
 
+`delegate`
 
-Structs
 
 
+### Members
 
-Enumerations
-
-
-
-Delegates
-
-
-
-Constants
+Constants (`const`)
 
 
 
@@ -2824,7 +2837,7 @@ Constructors
 
 
 
-Destructors
+Finalizers (`~`)
 
 
 
@@ -2832,15 +2845,15 @@ Fields
 
 
 
-Indexer
+Indexer (`this`)
 
 
 
-Properties
+Properties (`get`, `set`)
 
 
 
-Events
+Events (`event`, `add`, `remove`)
 
 
 
@@ -2848,9 +2861,11 @@ Methods
 
 
 
-Operators
+Operators (`operator`)
 
 
+
+### Complex
 
 #### TODO Object initializers
 
