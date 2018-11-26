@@ -2181,7 +2181,7 @@ Always put *one* space...
 * ...around `:` in generic type constraints.
 
   ```c#
-  public sealed class RandomList<T>
+  public sealed class RandomList <T>
    where T : new()
   {...}
   ```
@@ -2218,6 +2218,13 @@ Always put *one* space...
   public string Name { get; private set; }
   ```
 
+* ...between the type name and the `<` type parameter list (declaration).
+
+  ```c#
+  public sealed class RandomList <T> : IList<T>, IList
+  {...}
+  ```
+
 * ...between the member name and the `(` argument parameter list (declaration).
 
   ```c#
@@ -2239,7 +2246,7 @@ Always put *one* space...
 * ...before `where ` generic type constraints.
 
   ```c#
-  public sealed class RandomList<T> : IList<T>, IList
+  public sealed class RandomList <T> : IList<T>, IList
    where T : new()
   {...}
   ```
@@ -2271,7 +2278,7 @@ Always put *one* space...
 * ...after inheritance separator `,`.
 
   ```c#
-  public sealed class RandomList<T> : IList<T>, IList
+  public sealed class RandomList <T> : IList<T>, IList
    where T : new()
   {...}
   ```
@@ -2279,7 +2286,7 @@ Always put *one* space...
 * ...after constraint separator `,`.
 
   ```c#
-  public sealed class ClonePool<T>
+  public sealed class ClonePool <T>
    where T : ICloneable, new()
   {...}
   ```
@@ -2321,6 +2328,13 @@ Never put *any* space...
   int x = a++;
   ```
 
+* ...between the type name and the `<` type parameter list (usage).
+
+  ```c#
+  public sealed class RandomList <T> : IList<T>, IList
+  {...}
+  ```
+
 * ...between the member name and the `(` argument parameter list (usage).
 
   ```c#
@@ -2342,7 +2356,7 @@ Never put *any* space...
 * ...between `new` and `()` in `new()` generic constraint.
 
   ```c#
-  public sealed class ClonePool<T>
+  public sealed class ClonePool <T>
    where T : ICloneable, new()
   {...}
   ```
@@ -2368,7 +2382,7 @@ Never put *any* space...
 * ...before inheritance separator `,`.
 
   ```c#
-  public sealed class RandomList<T> : IList<T>, IList
+  public sealed class RandomList <T> : IList<T>, IList
    where T : new()
   {...}
   ```
@@ -2376,7 +2390,7 @@ Never put *any* space...
 * ...before constraint separator `,`.
 
   ```c#
-  public sealed class ClonePool<T>
+  public sealed class ClonePool <T>
    where T : ICloneable, new()
   {...}
   ```
@@ -2807,65 +2821,216 @@ unchecked
 
 ### Types
 
-`class`
+#### `class`
 
+```c#
+/// <summary>
+///     Implements a list of random items.
+/// </summary>
+/// <typeparam name="T"> The type of random items stored in the list. </typeparam>
+/// <remarks>
+///     <para>
+///         The random list is automatically filled with randomized items.
+///     </para>
+///     <note type="note">
+///         This is just an example.
+///         It is just nonsense so you focus on the actual template.
+///     </note>
+/// </remarks>
+/// <threadsafety static="false" instance="false" />
+/// <example>
+///     <code language="cs">
+/// <![CDATA[
+/// RandomList<string> rl = new RandomList<string>();
+/// ...
+/// ]]>
+///     </code>
+/// </example>
+public class RandomList <T> : Collection<T>, IRandomList<T>
+ where T : new()
+{
+	...
+}
+```
 
+#### `struct`
 
-`struct`
+```c#
+/// <summary>
+///     Implements a random tuple.
+/// </summary>
+/// <typeparam name="TKey"> The type of the key element. </typeparam>
+/// <typeparam name="TValue"> The type of the value element. </typeparam>
+/// <remarks>
+///     <para>
+///         The random tuple is automatically filled with a randomized key and value.
+///     </para>
+///     <note type="note">
+///         This is just an example.
+///         It is just nonsense so you focus on the actual template.
+///     </note>
+/// </remarks>
+/// <threadsafety static="false" instance="false" />
+/// <example>
+///     <code language="cs">
+/// <![CDATA[
+/// RandomTuple<int, double> rl = RandomTuple<int, double>();
+/// ...
+/// ]]>
+///     </code>
+/// </example>
+public struct RandomTuple <TKey, TValue> : IEquatable<RandomTuple<TKey, TValue>>
+ where TKey : new()
+ where TValue : new()
+{
+	...
+}
+```
 
+#### `interface`
 
+```c#
+/// <summary>
+///     Defines the interface for a list of random items.
+/// </summary>
+/// <typeparam name="T"> The type of random items stored in the list. </typeparam>
+/// <remarks>
+///     <note type="implement">
+///         The random list should be automatically filled with randomized items.
+///     </note>
+///     <note type="note">
+///         This is just an example.
+///         It is just nonsense so you focus on the actual template.
+///     </note>
+/// </remarks>
+/// <threadsafety static="false" instance="false" />
+public interface IRandomList <T> : IList<T>, IList
+ where T : new()
+{
+	...
+}
+```
 
-`interface`
+#### `enum`
 
+```c#
+/// <summary>
+///     Defines the state of a device.
+/// </summary>
+/// <remarks>
+///     <para>
+///         Any device can have any state at any time.
+///     </para>
+///     <note type="note">
+///         This is just an example.
+///         It is just nonsense so you focus on the actual template.
+///     </note>
+/// </remarks>
+public enum DeviceState
+{
+	/// <summary>
+	///     The device status is unknown (check connection state).
+	/// </summary>
+    Unknown = 0,
+    
+    /// <summary>
+	///     The device is powered-off.
+	/// </summary>
+    Off = 1,
+    
+    /// <summary>
+	///     The device is powered-on but does nothing.
+	/// </summary>
+    Idle = 2,
+    
+    /// <summary>
+	///     The device working hard!
+	/// </summary>
+    Working = 3,
+}
+```
 
+#### `delegate`
 
-`enum`
-
-
-
-`delegate`
-
-
+```c#
+/// <summary>
+///     Defines the callback which decides whether an item is worthy or not.
+/// </summary>
+/// <typeparam name="T"> The type of item whose worthyness is checked. </typeparam>
+/// <param name="item"> The item whose worthyness is checked. </param>
+/// <returns>
+///     true if the item passed by <paramref name="item" /> is worthy,
+///     false otherwise or if <paramref name="item" /> is null.
+/// </returns>
+/// <remarks>
+///     <note type="implement">
+///         The worthyness is decided randomly.
+///     </para>
+///     <note type="note">
+///         This is just an example.
+///         It is just nonsense so you focus on the actual template.
+///     </note>
+/// </remarks>
+public delegate bool RandomPredicate <T> (T item) where T : class;
+```
 
 ### Members
 
 Constants (`const`)
 
+```c#
 
+```
 
 Constructors
 
+```c#
 
+```
 
 Finalizers (`~`)
 
+```c#
 
+```
 
 Fields
 
+```c#
 
+```
 
 Indexer (`this`)
 
+```c#
 
+```
 
 Properties (`get`, `set`)
 
+```c#
 
+```
 
 Events (`event`, `add`, `remove`)
 
+```c#
 
+```
 
 Methods
 
+```c#
 
+```
 
 Operators (`operator`)
 
+```c#
 
+```
 
-### Complex
+### Other
 
 #### TODO Object initializers
 
