@@ -2517,9 +2517,41 @@ Always use comments for the following, never for anything else:
 * To provide additional explanation about *why* and *how*.
 * To provide references and links to additional documentation.
 
+Never state or describe the obvious.
+
+### Whitespaces
+
+#### Spaces
+
+Always put *one* space...
+
+- ...after starting a regular comment.
+
+  ```c#
+  // Some explanation here.
+  ```
+
+- ...after starting an XML comment.
+
+  ```c#
+  /// <summary>
+  ///     Implements something.
+  /// </summary>
+  ```
+
+#### TODO Indentations
+
+TBD
+
 ### Regular comments
 
+#### General
+
 Always use regular comments (`//`, `/**/`) inside code blocks (e.g. method bodies) but never outside.
+
+#### TODO Decorations
+
+TBD
 
 ### XML comments
 
@@ -2528,6 +2560,10 @@ Always use regular comments (`//`, `/**/`) inside code blocks (e.g. method bodie
 Always use XML comments (`///`) outside code blocks (e.g. method declarations) but never inside.
 
 Always follow the additional rules as described below and the formatting as shown in [Templates](#Templates).
+
+#### Decorations
+
+Never use decorations in XML comments (e.g. using `_` for underlining or `*` for framing).
 
 #### Documentation file
 
@@ -2569,7 +2605,7 @@ namespace MyCompany.MyProduct.MyComponent.SomeNamespace
 Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 
 * The source code file must be named *_NamespaceDoc.cs*.
-* The source code file must not contain any other namespaces or types as described here.
+* The source code file must not contain any other namespaces or types than described here.
 * The source code file must contain a class named *NamespaceDoc* inside the described namespace.
 * The class *NamespaceDoc* must be `public` and `sealed`.
 * The class *NamespaceDoc* must not derive from a class (except `object`) or implement any interface.
