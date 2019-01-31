@@ -2160,6 +2160,8 @@ if (width * height + offset >= threshold)
 
 Always use spaces with a tab and indent size of 4.
 
+Always use spaces for both code and comments.
+
 Always replace tabs used for code formatting with spaces.
 
 #### Spaces
@@ -2456,7 +2458,7 @@ Always increment the indentation level...
 
 - ...after opening curly braces `{`.
 - ...after `case` or `default` label.
-- ...after first line of multiline statement.
+- ...after the first line of multiline statements.
 
 Always decrement the indentation level...
 
@@ -2467,6 +2469,7 @@ Always decrement the indentation level...
 Never change indentation level...
 
 * ...after `#region`.
+* ...before `#endregion`.
 
 #### Empty lines
 
@@ -2519,6 +2522,18 @@ Always use comments for the following, never for anything else:
 
 Never state or describe the obvious.
 
+Always comment...
+
+* ...all public namespaces.
+* ...all public types.
+* ...all public and protected members.
+
+Never comment...
+
+* ...`#region` blocks.
+* ...`extern alias` directives.
+* ...`using` directives.
+
 ### Whitespaces
 
 #### Spaces
@@ -2537,11 +2552,26 @@ Always put *one* space...
   /// <summary>
   ///     Implements something.
   /// </summary>
+  /// <threadsafety static="false" instance="false" />
   ```
 
-#### TODO Indentations
+#### Indentations
 
-TBD
+Always increment the indentation level...
+
+- ...after an opening XML comment tag.
+
+Always decrement the indentation level...
+
+- ...before before a closing XML comment tag.
+
+Never change indentation level...
+
+- ...within the same XML comment level.
+
+#### Empty lines
+
+Never use empty lines in or between comments.
 
 ### Regular comments
 
@@ -2549,9 +2579,27 @@ TBD
 
 Always use regular comments (`//`, `/**/`) inside code blocks (e.g. method bodies) but never outside.
 
-#### TODO Decorations
+#### Decorations
 
-TBD
+Never use decorations in XML comments (e.g. using `_` or `-` for underlining or `*` for framing).
+
+Exception: For structuring large blocks of necessary comments.
+
+Example:
+
+```c#
+/************************/
+/* Top secret algorithm */
+/************************/
+
+// PURPOSE
+// -------
+// ...some lengthy explanation...
+
+// HOW IT WORKS
+// ------------
+// ...some lengthy explanation...
+```
 
 ### XML comments
 
@@ -2563,7 +2611,7 @@ Always follow the additional rules as described below and the formatting as show
 
 #### Decorations
 
-Never use decorations in XML comments (e.g. using `_` for underlining or `*` for framing).
+Never use decorations in XML comments (e.g. using `_` or `-` for underlining or `*` for framing).
 
 #### Documentation file
 
@@ -2614,7 +2662,7 @@ Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 * The class *NamespaceDoc* must have only and exactly one `summary` XML comment.
 * The `summary` XML comment must start with *Contains* and should be only one sentence.
 
-#### TODO
+### TODO XML comment tags
 
 
 
@@ -2622,9 +2670,9 @@ Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 
 
 
-## TODO Templates
+## Templates
 
-The styling and formatting in this section overrules all other code examples.
+The styling and formatting, both code and comments, in this section overrules all other code examples.
 
 ### Expressions
 
@@ -3010,57 +3058,57 @@ public enum DeviceState
 public delegate bool RandomPredicate <T> (T item) where T : class;
 ```
 
-### Members
+### TODO Members
 
-Constants (`const`)
-
-```c#
-
-```
-
-Constructors
+#### Constants (`const`)
 
 ```c#
 
 ```
 
-Finalizers (`~`)
+#### Constructors
 
 ```c#
 
 ```
 
-Fields
+#### Finalizers (`~`)
 
 ```c#
 
 ```
 
-Indexer (`this`)
+#### Fields
 
 ```c#
 
 ```
 
-Properties (`get`, `set`)
+#### Indexer (`this`)
 
 ```c#
 
 ```
 
-Events (`event`, `add`, `remove`)
+#### Properties (`get`, `set`)
 
 ```c#
 
 ```
 
-Methods
+#### Events (`event`, `add`, `remove`)
 
 ```c#
 
 ```
 
-Operators (`operator`)
+#### Methods
+
+```c#
+
+```
+
+#### Operators (`operator`)
 
 ```c#
 
