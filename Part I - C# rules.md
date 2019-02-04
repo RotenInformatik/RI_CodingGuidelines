@@ -2664,6 +2664,231 @@ Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 
 ### TODO XML comment tags
 
+#### `summary`
+
+Type: xxx
+
+Used on: xxx
+
+Purpose: xxx
+
+Parent tags: xxx
+
+Child tags: xxx
+
+Example:
+
+```c#
+xxx
+```
+
+#### `typeparam`
+
+Type: xxx
+
+Used on: xxx
+
+Purpose: xxx
+
+Parent tags: xxx
+
+Child tags: xxx
+
+Example:
+
+```c#
+xxx
+```
+
+#### `param`
+
+Type: xxx
+
+Used on: xxx
+
+Purpose: xxx
+
+Parent tags: xxx
+
+Child tags: xxx
+
+Example:
+
+```c#
+xxx
+```
+
+#### `returns`
+
+Type: xxx
+
+Used on: xxx
+
+Purpose: xxx
+
+Parent tags: xxx
+
+Child tags: xxx
+
+Example:
+
+```c#
+xxx
+```
+
+#### `value`
+
+Type: xxx
+
+Used on: xxx
+
+Purpose: xxx
+
+Parent tags: xxx
+
+Child tags: xxx
+
+Example:
+
+```c#
+xxx
+```
+
+#### `remarks`
+
+Type: xxx
+
+Used on: xxx
+
+Purpose: xxx
+
+Parent tags: xxx
+
+Child tags: xxx
+
+Example:
+
+```c#
+xxx
+```
+
+#### `para`
+
+Type: xxx
+
+Used on: xxx
+
+Purpose: xxx
+
+Parent tags: xxx
+
+Child tags: xxx
+
+Example:
+
+```c#
+xxx
+```
+
+#### `note`
+
+Type: xxx
+
+Used on: xxx
+
+Purpose: xxx
+
+Parent tags: xxx
+
+Child tags: xxx
+
+Example:
+
+```c#
+xxx
+```
+
+#### `threadsafety`
+
+Type: xxx
+
+Used on: xxx
+
+Purpose: xxx
+
+Parent tags: xxx
+
+Child tags: xxx
+
+Example:
+
+```c#
+xxx
+```
+
+#### `exception`
+
+Type: xxx
+
+Used on: xxx
+
+Purpose: xxx
+
+Parent tags: xxx
+
+Child tags: xxx
+
+Example:
+
+```c#
+xxx
+```
+
+#### `example`
+
+Type: xxx
+
+Used on: xxx
+
+Purpose: xxx
+
+Parent tags: xxx
+
+Child tags: xxx
+
+Example:
+
+```c#
+xxx
+```
+
+#### `code`
+
+Type: xxx
+
+Used on: xxx
+
+Purpose: xxx
+
+Parent tags: xxx
+
+Child tags: xxx
+
+Example:
+
+```c#
+xxx
+```
+
+#### TODO Inline elements
+
+* `paramref`
+
+* `typeparamref`
+
+* `see`
+
+* `c`
 
 
 ## TODO Preprocessor
