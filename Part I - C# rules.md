@@ -2569,6 +2569,10 @@ Never change indentation level...
 
 - ...within the same XML comment level.
 
+Always fall back to indentation level zero...
+
+* ...for CDATA blocks of `code` XML comment elements.
+
 #### Empty lines
 
 Never use empty lines in or between comments.
@@ -2662,96 +2666,122 @@ Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 * The class *NamespaceDoc* must have only and exactly one `summary` XML comment.
 * The `summary` XML comment must start with *Contains* and should be only one sentence.
 
-### TODO XML comment tags
+### TODO XML comment elements
 
 #### `summary`
 
-Type: xxx
+**Type**: Top-level block element.
 
-Used on: xxx
+**Used on**: Types, Members.
 
-Purpose: xxx
+**Mandatory**: For public types and public/protected members.
 
-Parent tags: xxx
+**Multiplicity**: One per type or member.
 
-Child tags: xxx
+**Purpose**: Describes a type or member in one sentence. Use `remarks` for more details.
 
-Example:
+**Parent tags**: None.
+
+**Child tags**: Any inline elements.
+
+**Example**:
 
 ```c#
-xxx
+/// <summary>
+///     Implements a list of random items.
+/// </summary>
 ```
 
 #### `typeparam`
 
-Type: xxx
+**Type**: Top-level block element.
 
-Used on: xxx
+**Used on**: Types, Members.
 
-Purpose: xxx
+**Mandatory**: For generic public types and generic public/protected members.
 
-Parent tags: xxx
+**Multiplicity**: One per generic type parameter.
 
-Child tags: xxx
+**Purpose**: Describes a generic type parameter.
 
-Example:
+**Parent tags**: None.
+
+**Child tags**: Any inline elements.
+
+**Example**:
 
 ```c#
-xxx
+/// <typeparam name="T"> The type of random items stored in the list. </typeparam>
 ```
 
 #### `param`
 
-Type: xxx
+**Type**: Top-level block element.
 
-Used on: xxx
+**Used on**: Members.
 
-Purpose: xxx
+**Mandatory**: For members with parameters.
 
-Parent tags: xxx
+**Multiplicity**: One per member parameter.
 
-Child tags: xxx
+**Purpose**: Describes a member parameter.
 
-Example:
+**Parent tags**: None.
+
+**Child tags**: Any inline elements.
+
+**Example**:
 
 ```c#
-xxx
+/// <param name="item"> The item which is added to the list. </typeparam>
 ```
 
 #### `returns`
 
-Type: xxx
+**Type**: Top-level block element.
 
-Used on: xxx
+**Used on**: Methods, Operators.
 
-Purpose: xxx
+**Mandatory**: For all methods and operators with a return value.
 
-Parent tags: xxx
+**Multiplicity**: One per method or operator.
 
-Child tags: xxx
+**Purpose**: Describes a return value.
 
-Example:
+**Parent tags**: None.
+
+**Child tags**: Any inline elements.
+
+**Example**:
 
 ```c#
-xxx
+/// <returns>
+///     The first item in the list or null if the list is empty.
+/// </returns>
 ```
 
 #### `value`
 
-Type: xxx
+**Type**: Top-level block element.
 
-Used on: xxx
+**Used on**: Properties, Indexer, Fields, Constants.
 
-Purpose: xxx
+**Mandatory**: For all properties, indexer, fields, constants.
 
-Parent tags: xxx
+**Multiplicity**: One per property, indexer, field, constant.
 
-Child tags: xxx
+**Purpose**: Describes a (returned) value. Use `remarks`  to state default values.
 
-Example:
+**Parent tags**: None.
+
+**Child tags**: Any inline elements.
+
+**Example**:
 
 ```c#
-xxx
+/// <value>
+///     True if the list is empty, false otherwise.
+/// </value>
 ```
 
 #### `remarks`
@@ -2769,7 +2799,15 @@ Child tags: xxx
 Example:
 
 ```c#
-xxx
+/// <remarks>
+///     <para>
+///         The random list is automatically filled with randomized items.
+///     </para>
+///     <note type="note">
+///         This is just an example.
+///         It is just nonsense so you focus on the actual template.
+///     </note>
+/// </remarks>
 ```
 
 #### `para`
@@ -2787,7 +2825,9 @@ Child tags: xxx
 Example:
 
 ```c#
-xxx
+///     <para>
+///         The random list is automatically filled with randomized items.
+///     </para>
 ```
 
 #### `note`
@@ -2805,7 +2845,10 @@ Child tags: xxx
 Example:
 
 ```c#
-xxx
+///     <note type="note">
+///         This is just an example.
+///         It is just nonsense so you focus on the actual template.
+///     </note>
 ```
 
 #### `threadsafety`
@@ -2823,7 +2866,7 @@ Child tags: xxx
 Example:
 
 ```c#
-xxx
+/// <threadsafety static="false" instance="false" />
 ```
 
 #### `exception`
@@ -2841,7 +2884,9 @@ Child tags: xxx
 Example:
 
 ```c#
-xxx
+/// <exception cref="ArgumentNullException">
+///     <paramref name="item" /> is null.
+/// </exception>
 ```
 
 #### `example`
@@ -2859,7 +2904,14 @@ Child tags: xxx
 Example:
 
 ```c#
-xxx
+/// <example>
+///     <code language="cs">
+/// <![CDATA[
+/// RandomList<string> rl = new RandomList<string>();
+/// ...
+/// ]]>
+///     </code>
+/// </example>
 ```
 
 #### `code`
@@ -2877,7 +2929,12 @@ Child tags: xxx
 Example:
 
 ```c#
-xxx
+///     <code language="cs">
+/// <![CDATA[
+/// RandomList<string> rl = new RandomList<string>();
+/// ...
+/// ]]>
+///     </code>
 ```
 
 #### TODO Inline elements
