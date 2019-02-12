@@ -46,7 +46,7 @@ For example, most of the rules in the C# part are more taste-dependent than the 
 
 In general, the guidelines are written with the following in mind:
 
-* Code Readability
+* Code Readability & Comparability
 * Code Debugability
-* Code Maintainability
+* Code Maintainability & Extensibility
 * Software Reliability

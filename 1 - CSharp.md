@@ -4,6 +4,8 @@
 
 The rules in this part specify how to use the C# programming language.
 
+Typically, they do not affect software functionality or behavior but merely names and code prettiness.
+
 For compactness, most code examples only adhere to its associated rule, not to all rules.
 
 [TOC]
@@ -2668,7 +2670,220 @@ Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 * The class *NamespaceDoc* must have only and exactly one `summary` XML comment.
 * The `summary` XML comment must start with *Contains* and should be only one sentence.
 
+### Special comments
+
+#### Conceptional documentation
+
+Always put a comprehensive explanation about concepts in a single, logical place and reference to that place using `see` references inside a `remarks`/`para` block.
+
+```c#
+/// <summary>
+///     Implements a local bus which can use optional connections to remote busses.
+/// </summary>
+/// <remarks>
+///     <para>
+///         See <see cref="IBus" /> for more details.
+///     </para>
+/// </remarks>
+/// <threadsafety static="true" instance="true" />
+public sealed class LocalBus : IBus { ... }
+
+/// <summary>
+///     Defines the interface for a message bus.
+/// </summary>
+/// <remarks>
+///     ... hundreds of lines which explains the whole concept of message busses...
+/// </remarks>
+/// <threadsafety static="true" instance="true" />
+public interface IBus : IDisposable, ISynchronizable, ILogSource
+```
+
+#### Default values
+
+Always document the default values of constants, fields, and properties with setters using `c` elements in a `remarks`/`para` block.
+
+```c#
+/// <summary>
+///     The sigma or standard deviation of all values in the history.
+/// </summary>
+/// <remarks>
+///     <para>
+///         The default value is <c> 0.0 </c>.
+///     </para>
+/// </remarks>
+public double Sigma;
+```
+
+#### Default implementations
+
+Always state a virtual members default implementation in a `remarks`/`note`/`implement` block.
+
+```c#
+/// <summary>
+///     Called when the logging needs to be configured.
+/// </summary>
+/// <remarks>
+///     <note type="implement">
+///         The default implementation does nothing.
+///     </note>
+/// </remarks>
+protected virtual void ConfigureLogging () { ... }
+```
+
+#### Asynchronous methods
+
+Always describe the continuation of a `Task`-returning or `async` method in the `returns` block.
+
+```c#
+/// <summary>
+///     Dispatches an operation onto a thread.
+/// </summary>
+/// <param name="operation"> The operation to dispatch. </param>
+/// <returns>
+///     The task which continues after the operation finished dispatching.
+/// </returns>
+public async Task Dispatch (Delegate operation) { ... }
+```
+
+#### Dynamic members
+
+Always provide a note in a `remarks`/`note`/`important` block that a member is dynamic and might impact performance and portability.
+
+```c#
+/// <summary>
+///     Gets the value bag which provides untyped access to the document.
+/// </summary>
+/// <value>
+///     The value bag which provides untyped access to the document.
+/// </value>
+/// <remarks>
+///     <note type="important">
+///         This is a dynamic member and might impact performance or portability.
+///     </note>
+/// </remarks>
+public dynamic ValueBag { get; }
+```
+
+#### Number of enumerations
+
+Always state how often an enumerable parameter is enumerated in a `remarks`/`para` block.
+
+```c#
+/// <summary>
+///     Determines how many elements are in a sequence.
+/// </summary>
+/// <typeparam name="T"> The type of the elements in the sequence. </typeparam>
+/// <param name="enumerable"> The sequence which contains the elements. </param>
+/// <returns>
+///     The amount of elements in the sequence.
+/// </returns>
+/// <remarks>
+///     <para>
+///         This is a O(n) operation where n is the number of elements in the sequence.
+///     </para>
+///     <para>
+///         <paramref name="enumerable" /> is enumerated exactly once .
+///     </para>
+/// </remarks>
+public static int Count <T> (this IEnumerable<T> enumerable)
+```
+
+#### Algorithmic complexity
+
+Always state the algorithmic complexity of a collection type or member in a `remarks`/`para` block.
+
+```c#
+/// <summary>
+///     Determines how many elements are in a sequence.
+/// </summary>
+/// <typeparam name="T"> The type of the elements in the sequence. </typeparam>
+/// <param name="enumerable"> The sequence which contains the elements. </param>
+/// <returns>
+///     The amount of elements in the sequence.
+/// </returns>
+/// <remarks>
+///     <para>
+///         This is a O(n) operation where n is the number of elements in the sequence.
+///     </para>
+///     <para>
+///         <paramref name="enumerable" /> is enumerated exactly once .
+///     </para>
+/// </remarks>
+public static int Count <T> (this IEnumerable<T> enumerable)
+```
+
+#### Unsafe contexts
+
+Always indicate unsafe types or members with a corresponding note in a `remarks`/`note`/`security` block.
+
+```c#
+/// <summary>
+///     Performs a fast data buffer copy.
+/// </summary>
+/// <param name="source"> The source data buffer. </param>
+/// <param name="destination"> The destination data buffer. </param>
+/// <param name="count"> The number of bytes to copy. </param>
+/// <remarks>
+///     <note type="security">
+///         This method is unsafe.
+///     </note>
+/// </remarks>
+public unsafe static void FastCopy (byte[] source, byte[] destination, int count) {...}
+```
+
+#### Locking
+
+Always state when a type or member performs locking which can leave the context of the type itself (e.g. through an event, callback, or member call of an outside-provided instance).
+
+```c#
+/// <summary>
+///     Implements a state machine.
+/// </summary>
+/// <remarks>
+///     <note type="important">
+///         Some virtual methods are called from within locks to
+///         <see cref="SyncRoot" />. Be careful in inheriting classes when
+///         calling outside code from those methods (e.g. through events, callbacks,
+///         or other virtual methods) to not produce deadlocks!
+///     </note>
+/// </remarks>
+/// <threadsafety static="true" instance="true" />
+public class StateMachine : LogSource, ISynchronizable { ... }
+```
+
+#### Thread safety
+
+Always state the thread-(un)safety of a type using `threadsafety` and make sure that this type is either thread-safe or unsafe in its entirety (with one scope for static members and one for instance members).
+
+Always state the thread-(un)safety on interfaces if the interface implementations are expected to be thread-safe or thread-unsafe. Omit the thread-safety statement if the interface implementor can decide on its own whether to implement it thread-safe or not.
+
+Always state the thread-(un)safety on delegates if the usages are expected to be thread-safe or thread-unsafe. Omit the thread-safety statement if the delegate user can decide on its own whether to use it thread-safe or not.
+
+#### Exceptions
+
+Always document all exceptions which can be thrown by a member (including unhandled exceptions which can be thrown by another member used inside) using `exception` blocks.
+
+#### Extension methods
+
+Always document extension methods like they are part of the type they extend.
+
 ### XML comment elements
+
+#### Order
+
+Always use the following XML comment element order:
+
+1. `inheritdoc`
+2. `summary`
+3. `typeparam`
+4. `param`
+5. `returns`
+6. `value`
+7. `event`
+8. `remarks`
+9. `threadsafety`
+10. `exception`
+11. `example`
 
 #### `summary`
 
@@ -3776,6 +3991,7 @@ public IniReader (TextReader reader)
 /// </exception>
 public IniReader (TextReader reader, IniReaderSettings settings)
 {
+    ...
 }
 ```
 
@@ -3830,12 +4046,31 @@ public T this [int index]
 {
 	get
     {
-    	// ...
+    	...
     }
     set
     {
-    	// ...
+    	...
     }
+}
+
+/// <summary>
+///     Gets or sets the item at a specified index.
+/// </summary>
+/// <param name="index"> The zero-based index. </param>
+/// <returns>
+///     The item at <paramref name="index" />.
+/// </returns>
+/// <value>
+///     The item at <paramref name="index" />.
+/// </value>
+/// <exception cref="ArgumentOutOfRangeException">
+///     <paramref name="index" /> is outside the range.
+/// </exception>
+public T this [int index]
+{
+	get => ... ;
+	set => ... ;
 }
 ```
 
@@ -3860,13 +4095,55 @@ public int LaserPowerKilowatts
 {
 	get
     {
-    	// ...
+    	...
     }
     set
     {
-    	// ...
+    	...
     }
 }
+
+/// <summary>
+///     Gets or sets the power of the spaceship laser in kilowatts.
+/// </summary>
+/// <value>
+///     The power of the spaceship laser in kilowatts or 0 if the laser is disabled.
+/// </value>
+/// <remarks>
+///     <para>
+///         The default value is <c> 0 </c>.
+///     </para>
+/// </remarks>
+/// <exception cref="ArgumentOutOfRangeException">
+///     <paramref name="value" /> is below zero.
+/// </exception>
+public int LaserPowerKilowatts
+{
+	get => ... ;
+	set => ... ;
+}
+
+/// <summary>
+///     Gets the maximum power of the spaceship laser in kilowatts.
+/// </summary>
+/// <value>
+///     The maximum power of the spaceship laser in kilowatts.
+/// </value>
+public int LaserPowerMaxKilowatts
+{
+	get
+    {
+    	...
+    }
+}
+
+/// <summary>
+///     Gets the maximum power of the spaceship laser in kilowatts.
+/// </summary>
+/// <value>
+///     The maximum power of the spaceship laser in kilowatts.
+/// </value>
+public int LaserPowerMaxKilowatts => ... ;
 ```
 
 #### Events (`event`, `add`, `remove`)
@@ -3884,11 +4161,11 @@ event EventHandler<ConnectionChangedEventArgs> IDatabaseManager.ConnectionChange
 {
 	add
 	{
-		this.ConnectionChangedInternal += value;
+		...
 	}
 	remove
 	{
-		this.ConnectionChangedInternal -= value;
+		...
 	}
 }
 ```
@@ -3913,6 +4190,27 @@ event EventHandler<ConnectionChangedEventArgs> IDatabaseManager.ConnectionChange
 ///     The resolving failed.
 /// </exception>
 public T GetExport <T> (string exportName)
+{
+    ...
+}
+
+/// <summary>
+///     Gets the first resolved value for the specified export name.
+/// </summary>
+/// <typeparam name="T"> The type of the resolved value. </typeparam>
+/// <param name="exportName"> The export name which is resolved. </param>
+/// <returns>
+///     The first resolved value.
+/// </returns>
+/// <remarks>
+///     <para>
+///         <paramref name="exportName"/> can also be a type name.
+///     </para>
+/// </remarks>
+/// <exception cref="CompositionException">
+///     The resolving failed.
+/// </exception>
+public T GetExport <T> (string exportName) => ... ;
 ```
 
 #### Unary operators (`operator`)
@@ -3927,7 +4225,7 @@ public T GetExport <T> (string exportName)
 /// </returns>
 public static RomanNumber operator -- (RomanNumber x)
 {
-	return new RomanNumber(x.DecimalValue - 1);
+	...
 }
 ```
 
@@ -3944,7 +4242,7 @@ public static RomanNumber operator -- (RomanNumber x)
 /// </returns>
 public static RomanNumber operator + (RomanNumber x, RomanNumber y)
 {
-	return new RomanNumber(x.DecimalValue + y.DecimalValue);
+	...
 }
 ```
 
