@@ -1,4 +1,6 @@
-# PART I - C# Rules
+# PART I - C#
+
+*[C#/.NET Coding Guidelines](https://github.com/RotenInformatik/RI_CodingGuidelines) | Version 1.0 | Author: Andreas Roten | License: Apache License 2.0*
 
 The rules in this part specify how to use the C# programming language.
 
@@ -2666,7 +2668,7 @@ Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 * The class *NamespaceDoc* must have only and exactly one `summary` XML comment.
 * The `summary` XML comment must start with *Contains* and should be only one sentence.
 
-### TODO XML comment elements
+### XML comment elements
 
 #### `summary`
 
@@ -2683,6 +2685,8 @@ Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 **Parent tags**: None.
 
 **Child tags**: Any inline elements.
+
+**Attributes**: None.
 
 **Example**:
 
@@ -2708,6 +2712,10 @@ Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 
 **Child tags**: Any inline elements.
 
+**Attributes**:
+
+* `name`; Mandatory; The name of the generic type parameter.
+
 **Example**:
 
 ```c#
@@ -2730,10 +2738,14 @@ Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 
 **Child tags**: Any inline elements.
 
+**Attributes**:
+
+- `name`; Mandatory; The name of the member parameter.
+
 **Example**:
 
 ```c#
-/// <param name="item"> The item which is added to the list. </typeparam>
+/// <param name="item"> The item which is added to the list. </param>
 ```
 
 #### `returns`
@@ -2752,6 +2764,8 @@ Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 
 **Child tags**: Any inline elements.
 
+**Attributes**: None.
+
 **Example**:
 
 ```c#
@@ -2764,17 +2778,19 @@ Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 
 **Type**: Top-level block element.
 
-**Used on**: Properties, Indexer, Fields, Constants.
+**Used on**: Properties, Indexer.
 
-**Mandatory**: For all properties, indexer, fields, constants.
+**Mandatory**: For all properties, indexer.
 
-**Multiplicity**: One per property, indexer, field, constant.
+**Multiplicity**: One per property, indexer.
 
 **Purpose**: Describes a (returned) value. Use `remarks`  to state default values.
 
 **Parent tags**: None.
 
 **Child tags**: Any inline elements.
+
+**Attributes**: None.
 
 **Example**:
 
@@ -2784,19 +2800,51 @@ Always adhere to the following rules for *_NamespaceDoc.cs* source code files:
 /// </value>
 ```
 
+#### `event`
+
+**Type**: Top-level block element.
+
+**Used on**: Members.
+
+**Mandatory**: For members which can raise events.
+
+**Multiplicity**: One per event which can be raised.
+
+**Purpose**: Describes an event which could be raised by using the member.
+
+**Parent tags**: None.
+
+**Child tags**: Any inline elements.
+
+**Attributes**:
+
+- `cref`; Mandatory; The event member which can be raised.
+
+**Example**:
+
+```c#
+/// <param cref="Started"> Raised after start is complete. </typeparam>
+```
+
 #### `remarks`
 
-Type: xxx
+**Type**: Top-level block element.
 
-Used on: xxx
+**Used on**: Types, Members.
 
-Purpose: xxx
+**Mandatory**: For public types and public/protected members which require description of details.
 
-Parent tags: xxx
+**Multiplicity**: One per type or member.
 
-Child tags: xxx
+**Purpose**: Describes details of a type or member.
 
-Example:
+**Parent tags**: None.
+
+**Child tags**: `para`, `note`.
+
+**Attributes**: None.
+
+**Example**:
 
 ```c#
 /// <remarks>
@@ -2812,17 +2860,23 @@ Example:
 
 #### `para`
 
-Type: xxx
+**Type**: Block element subordinated to `remarks`.
 
-Used on: xxx
+**Used on**: *same as `remarks`*
 
-Purpose: xxx
+**Mandatory**: All descriptions must be in `para` or `note`, not in `remarks` directly.
 
-Parent tags: xxx
+**Multiplicity**: One for each described general detail.
 
-Child tags: xxx
+**Purpose**: Describes general details of a type or member.
 
-Example:
+**Parent tags**: `remarks`.
+
+**Child tags**: Any inline elements.
+
+**Attributes**: None.
+
+**Example**:
 
 ```c#
 ///     <para>
@@ -2832,17 +2886,35 @@ Example:
 
 #### `note`
 
-Type: xxx
+**Type**: Block element subordinated to `remarks`.
 
-Used on: xxx
+**Used on**: *same as `remarks`*
 
-Purpose: xxx
+**Mandatory**: All descriptions must be in `para` or `note`, not in `remarks` directly.
 
-Parent tags: xxx
+**Multiplicity**: One for each described detail of significant importance.
 
-Child tags: xxx
+**Purpose**: Describes details of a type or member which are of significant importance.
 
-Example:
+**Parent tags**: `remarks`.
+
+**Child tags**: Any inline elements.
+
+**Attributes**:
+
+- `type`; Mandatory; The significance of the described detail.
+
+**Significance**:
+
+The following can be used for the `type` attribute:
+
+* `note`: A hint or non-obvious detail.
+* `important`: An important detail which must be considered when using the type or member.
+* `implement`: A rule which must be followed by inheritors.
+* `security`: A security-relevant detail or advise.
+* `cs`: A note related to the C# language.
+
+**Example**:
 
 ```c#
 ///     <note type="note">
@@ -2853,17 +2925,26 @@ Example:
 
 #### `threadsafety`
 
-Type: xxx
+**Type**: Top-level block element.
 
-Used on: xxx
+**Used on**: Types.
 
-Purpose: xxx
+**Mandatory**: For all types.
 
-Parent tags: xxx
+**Multiplicity**: One for each type.
 
-Child tags: xxx
+**Purpose**: States whether a types members are thread-safe or not.
 
-Example:
+**Parent tags**: None.
+
+**Child tags**: None.
+
+**Attributes**:
+
+* `static`; Mandatory; States whether public/protected static members are thread safe.
+* `instance`; Mandatory; States whether public/protected instance members are thread safe.
+
+**Example**:
 
 ```c#
 /// <threadsafety static="false" instance="false" />
@@ -2871,15 +2952,23 @@ Example:
 
 #### `exception`
 
-Type: xxx
+**Type**: Top-level block element.
 
-Used on: xxx
+**Used on**: Members.
 
-Purpose: xxx
+**Mandatory**: For all members which can throw exceptions.
 
-Parent tags: xxx
+**Multiplicity**: One for each exception which can be thrown by the member.
 
-Child tags: xxx
+**Purpose**: Describes which exceptions can be thrown under which circumstances.
+
+**Parent tags**: None.
+
+**Child tags**: Any inline elements.
+
+**Attributes**:
+
+* `cref`; Mandatory; References the exception type which is described.
 
 Example:
 
@@ -2891,20 +2980,27 @@ Example:
 
 #### `example`
 
-Type: xxx
+**Type**: Top-level block element.
 
-Used on: xxx
+**Used on**: Types, Members.
 
-Purpose: xxx
+**Mandatory**: For public types and public/protected members where usage is not obvious.
 
-Parent tags: xxx
+**Multiplicity**: One per type or member.
 
-Child tags: xxx
+**Purpose**: Provides an example how to use a type or member.
 
-Example:
+**Parent tags**: None.
+
+**Child tags**: `code` and any inline elements.
+
+**Attributes**: None.
+
+**Example**:
 
 ```c#
 /// <example>
+///     Here is some example:
 ///     <code language="cs">
 /// <![CDATA[
 /// RandomList<string> rl = new RandomList<string>();
@@ -2916,17 +3012,25 @@ Example:
 
 #### `code`
 
-Type: xxx
+**Type**: Block element subordinated to `example`.
 
-Used on: xxx
+**Used on**: *same as `example`*
 
-Purpose: xxx
+**Mandatory**: All code examples must be in `code`, not in `example` directly.
 
-Parent tags: xxx
+**Multiplicity**: One for each code example.
 
-Child tags: xxx
+**Purpose**: Provides the actual sample code for an example.
 
-Example:
+**Parent tags**: `example`.
+
+**Child tags**: `CDATA`
+
+**Attributes**:
+
+* `language`; Mandatory; States the used code language; `cs` = C#
+
+**Example**:
 
 ```c#
 ///     <code language="cs">
@@ -2937,20 +3041,306 @@ Example:
 ///     </code>
 ```
 
-#### TODO Inline elements
+#### `inheritdoc`
 
-* `paramref`
+**Type**: Top-level block element.
 
-* `typeparamref`
+**Used on**: Types, Members.
 
-* `see`
+**Mandatory**: For public types and public/protected members which inherit documentation from another.
 
-* `c`
+**Multiplicity**: One per type or member.
 
+**Purpose**: Applies the documentation already written for another type or member to avoid duplicates.
 
-## TODO Preprocessor
+**Parent tags**: None.
 
+**Child tags**: None.
 
+**Attributes**:
+
+- `cref`; Optional; References the type and/or member from which the documentation is inherited.
+
+**Example** (inheriting the documentation from the base type or interface):
+
+```c#
+/// <inheritdoc />
+```
+
+**Example** (inheriting the documentation from a particular type and/or member):
+
+```c#
+/// <inheritdoc cref="IThreadDispatcher.Post(Delegate,object[])"/>
+```
+
+#### `paramref`
+
+**Type**: Inline element.
+
+**Purpose**: References a parameter of the current member.
+
+**Attributes**:
+
+* `name`; Mandatory; The name of the referenced member parameter.
+
+**Example**:
+
+```c#
+/// <exception cref="ArgumentNullException">
+///     <paramref name="item" /> is null.
+/// </exception>
+```
+
+#### `typeparamref`
+
+**Type**: Inline element.
+
+**Purpose**: References a generic type parameter of the current type or member.
+
+**Attributes**:
+
+* `name`; Mandatory; The name of the referenced generic type parameter.
+
+**Example**:
+
+```c#
+/// <returns>
+///     The first resolved value of type <typeparamref name="T" /> or null.
+/// </returns>
+```
+
+#### `see` (code reference)
+
+**Type**: Inline element.
+
+**Purpose**: References another type or member.
+
+**Attributes**:
+
+* `cref`; Mandatory; The referenced type or member.
+
+**Example** (with member parameters for overloaded members):
+
+```c#
+/// <remarks>
+///     <para>
+///         See <see cref="SomeOtherType.SomeMethod(string,int)" /> for more details.
+///     </para>
+/// </remarks>
+```
+
+**Example** (without member parameters for non-overloaded members):
+
+```c#
+/// <remarks>
+///     <para>
+///         See <see cref="SomeOtherType.SomeMethod /> for more details.
+///     </para>
+/// </remarks>
+```
+
+**Example** (with reference to type only, without a referenced member):
+
+```c#
+/// <remarks>
+///     <para>
+///         See <see cref="SomeOtherType" /> for more details.
+///     </para>
+/// </remarks>
+```
+
+#### `see` (external reference)
+
+**Type**: Inline element.
+
+**Purpose**: Links to an external information.
+
+**Attributes**:
+
+- `href`; Mandatory; The URL to the external information.
+
+**Example** (with the URL itself as the text):
+
+```c#
+/// <remarks>
+///     <para>
+///         See <see href="https://en.wikipedia.org/wiki/Radix_sort" />.
+///     </para>
+/// </remarks>
+```
+
+**Example** (with a separate text):
+
+```c#
+/// <remarks>
+///     <para>
+///         See <see href="https://en.wikipedia.org/wiki/Radix_sort">Radix sort</see>.
+///     </para>
+/// </remarks>
+```
+
+#### `c`
+
+**Type**: Inline element.
+
+**Purpose**: Used for inline monospace/code elements.
+
+**Attributes**: None.
+
+**Example**:
+
+```c#
+/// <remarks>
+///     <para>
+///         Use the GUID <c>e54dcff7-f8f3-4a11-9d17-1cf7decd880e</c>.
+///     </para>
+/// </remarks>
+```
+
+## Preprocessor
+
+### Indentations
+
+Never indent preprocessor directives, regardless what code they are applied to.
+
+Correct:
+
+```c#
+public void DoSomething ()
+{
+#if PLATFORM_WINDOWS
+	// ... some code which depends on a Windows-only library
+#elif PLATFORM_LINUX
+	// ... some code which depends on a Linux-only library
+#else
+#error "Platform not defined!"
+#endif
+}
+```
+
+Incorrect:
+
+```c#
+public void DoSomething ()
+{
+	#if PLATFORM_WINDOWS
+		// ... some code which depends on a Windows-only library
+	#elif PLATFORM_LINUX
+		// ... some code which depends on a Linux-only library
+	#else
+		#error "Platform not defined!"
+	#endif
+}
+```
+
+### Empty lines
+
+Never add unnecessary empty lines before or after preprocessor directives.
+
+Correct:
+
+```c#
+public void DoSomething ()
+{
+#if PLATFORM_WINDOWS
+	// ... some code which depends on a Windows-only library
+#elif PLATFORM_LINUX
+	// ... some code which depends on a Linux-only library
+#else
+#error "Platform not defined!"
+#endif
+}
+```
+
+Incorrect:
+
+```c#
+public void DoSomething ()
+{
+    
+#if PLATFORM_WINDOWS
+	// ... some code which depends on a Windows-only library
+#elif PLATFORM_LINUX
+	// ... some code which depends on a Linux-only library
+#else
+    
+#error "Platform not defined!"
+    
+#endif
+
+}
+```
+
+### Conditional compilation
+
+Never use conditional compilation, such as the following preprocessor directives:
+
+`#if`, `#else`, `#elif`,  `#endif`, `#define`, `#undef`
+
+Exception: For compilation differences between debug and release versions.
+
+Example:
+
+```c#
+#if DEBUG
+[assembly: AssemblyConfiguration("DEBUG")]
+#else
+[assembly: AssemblyConfiguration("RELEASE")]
+#if !RELEASE
+#warning "RELEASE not specified but used."
+#endif
+#endif
+```
+
+Exception: For platform-specific code *which cannot be dynamically selected at runtime*.
+
+Example:
+
+```c#
+public void DoSomething ()
+{
+#if PLATFORM_WINDOWS
+	// ... some code which depends on a Windows-only library
+#elif PLATFORM_LINUX
+	// ... some code which depends on a Linux-only library
+#else
+#error "Platform not defined!"
+#endif
+}
+```
+
+### Warnings and errors
+
+Never use warning and errors, such as the following preprocessor directives:
+
+`#warning`, `#error`
+
+Exception: In combination with conditional compilation to indicate unknown/undefined situations.
+
+### Line override
+
+Never use line number override, such as the following preprocessor directives:
+
+`#line`
+
+Exception: For auto-generated code which is generated by a template or tool.
+
+### Compiler pragmas
+
+Never use compiler pragmas, such as the following preprocessor directives:
+
+`#pragma`, `#pragma checksum`, `#pragma warning`
+
+Exception: `#pragma warning` to disable a compiler warning *with documented rationale*.
+
+Example:
+
+```c#
+// Disabled CS0649 because ...
+#pragma warning disable 0649
+			// ... some code which generates a warnung but should not
+#pragma warning restore 0649
+```
 
 ## Templates
 
@@ -3340,72 +3730,221 @@ public enum DeviceState
 public delegate bool RandomPredicate <T> (T item) where T : class;
 ```
 
-### TODO Members
+### Members
 
 #### Constants (`const`)
 
 ```c#
-
+/// <summary>
+///     The default separator between a name and its value.
+/// </summary>
+/// <remarks>
+///     <para>
+///         The default value is <c> = </c>.
+///     </para>
+/// </remarks>
+public const char DefaultNameValueSeparator = '=';
 ```
 
 #### Constructors
 
 ```c#
+/// <summary>
+///     Creates a new instance of <see cref="IniReader" />.
+/// </summary>
+/// <param name="reader"> The used <see cref="TextReader" />. </param>
+/// <remarks>
+///     <para>
+///         INI reader settings with default values are used.
+///     </para>
+/// </remarks>
+/// <exception cref="ArgumentNullException">
+///     <paramref name="reader" /> is null.
+/// </exception>
+public IniReader (TextReader reader)
+	: this(reader, null)
+{
+}
 
+/// <summary>
+///     Creates a new instance of <see cref="IniReader" />.
+/// </summary>
+/// <param name="reader"> The used <see cref="TextReader" />. </param>
+/// <param name="settings"> The used INI reader settings. </param>
+/// <exception cref="ArgumentNullException">
+///     <paramref name="reader" /> is null.
+/// </exception>
+public IniReader (TextReader reader, IniReaderSettings settings)
+{
+}
 ```
 
 #### Finalizers (`~`)
 
 ```c#
-
+/// <summary>
+///     Garbage collects this instance of <see cref="IniReader" />.
+/// </summary>
+/// <remarks>
+///     <para>
+///         The finalizer calls <see cref="Dispose(bool)" />.
+///     </para>
+/// </remarks>
+~IniReader ()
+{
+    this.Dispose(false);
+}
 ```
 
 #### Fields
 
 ```c#
-
+/// <summary>
+///     The sigma or standard deviation of all values in the history.
+/// </summary>
+/// <remarks>
+///     <para>
+///         The default value is <c> 0.0 </c>.
+///     </para>
+/// </remarks>
+public double Sigma;
 ```
 
 #### Indexer (`this`)
 
 ```c#
-
+/// <summary>
+///     Gets or sets the item at a specified index.
+/// </summary>
+/// <param name="index"> The zero-based index. </param>
+/// <returns>
+///     The item at <paramref name="index" />.
+/// </returns>
+/// <value>
+///     The item at <paramref name="index" />.
+/// </value>
+/// <exception cref="ArgumentOutOfRangeException">
+///     <paramref name="index" /> is outside the range.
+/// </exception>
+public T this [int index]
+{
+	get
+    {
+    	// ...
+    }
+    set
+    {
+    	// ...
+    }
+}
 ```
 
 #### Properties (`get`, `set`)
 
 ```c#
-
+/// <summary>
+///     Gets or sets the power of the spaceship laser in kilowatts.
+/// </summary>
+/// <value>
+///     The power of the spaceship laser in kilowatts or 0 if the laser is disabled.
+/// </value>
+/// <remarks>
+///     <para>
+///         The default value is <c> 0 </c>.
+///     </para>
+/// </remarks>
+/// <exception cref="ArgumentOutOfRangeException">
+///     <paramref name="value" /> is below zero.
+/// </exception>
+public int LaserPowerKilowatts
+{
+	get
+    {
+    	// ...
+    }
+    set
+    {
+    	// ...
+    }
+}
 ```
 
 #### Events (`event`, `add`, `remove`)
 
 ```c#
+/// <summary>
+///     Raised after a request message was received.
+/// </summary>
+public event EventHandler<BusMessageEventArgs> ReceivingRequest;
 
+/// <summary>
+///     Raised after a database connection has changed.
+/// </summary>
+event EventHandler<ConnectionChangedEventArgs> IDatabaseManager.ConnectionChanged
+{
+	add
+	{
+		this.ConnectionChangedInternal += value;
+	}
+	remove
+	{
+		this.ConnectionChangedInternal -= value;
+	}
+}
 ```
 
 #### Methods
 
 ```c#
-
+/// <summary>
+///     Gets the first resolved value for the specified export name.
+/// </summary>
+/// <typeparam name="T"> The type of the resolved value. </typeparam>
+/// <param name="exportName"> The export name which is resolved. </param>
+/// <returns>
+///     The first resolved value.
+/// </returns>
+/// <remarks>
+///     <para>
+///         <paramref name="exportName"/> can also be a type name.
+///     </para>
+/// </remarks>
+/// <exception cref="CompositionException">
+///     The resolving failed.
+/// </exception>
+public T GetExport <T> (string exportName)
 ```
 
-#### Operators (`operator`)
+#### Unary operators (`operator`)
 
 ```c#
-
+/// <summary>
+///     Decrements a <see cref="RomanNumber" /> by 1.
+/// </summary>
+/// <param name="x"> The value. </param>
+/// <returns>
+///     The result.
+/// </returns>
+public static RomanNumber operator -- (RomanNumber x)
+{
+	return new RomanNumber(x.DecimalValue - 1);
+}
 ```
 
-### Other
+#### Binary operators (`operator`)
 
-#### TODO Object initializers
+```c#
+/// <summary>
+///     Adds two <see cref="RomanNumber" />s.
+/// </summary>
+/// <param name="x"> The first value. </param>
+/// <param name="y"> The second value. </param>
+/// <returns>
+///     The result.
+/// </returns>
+public static RomanNumber operator + (RomanNumber x, RomanNumber y)
+{
+	return new RomanNumber(x.DecimalValue + y.DecimalValue);
+}
+```
 
-[TBD]
-
-#### TODO Anonymous methods
-
-[TBD]
-
-#### TODO Lambda expressions
-
-[TBD]
