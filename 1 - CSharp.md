@@ -1506,7 +1506,7 @@ Always use the type name to access static members (even from inside the type).
 Correct:
 
 ```c#
-public static StringUtility
+public static class StringUtility
 {
 	...
 	string[] pieces = StringUtility.SplitNewLines(value);
@@ -1517,7 +1517,7 @@ public static StringUtility
 Incorrect:
 
 ```c#
-public static StringUtility
+public static class StringUtility
 {
 	...
 	string[] pieces = SplitNewLines(value);
@@ -2162,7 +2162,7 @@ if (width * height + offset >= threshold)
 
 #### Tabs vs. Spaces
 
-Always use spaces with a tab and indent size of 4.
+Always use spaces. A tab is converted to 4 spaces.
 
 Always use spaces for both code and comments.
 
@@ -2175,7 +2175,7 @@ Always put *one* space...
 * ...around `=>`.
 
   ```c#
-  Action<string> log = x => Console.WriteLine(x);
+  Action<string> log = message => Console.WriteLine(message);
   ```
 
 * ...around `:` in type declarations.
@@ -2782,7 +2782,7 @@ Always state how often an enumerable parameter is enumerated in a `remarks`/`par
 ///         This is a O(n) operation where n is the number of elements in the sequence.
 ///     </para>
 ///     <para>
-///         <paramref name="enumerable" /> is enumerated exactly once .
+///         <paramref name="enumerable" /> is enumerated exactly once.
 ///     </para>
 /// </remarks>
 public static int Count <T> (this IEnumerable<T> enumerable)
