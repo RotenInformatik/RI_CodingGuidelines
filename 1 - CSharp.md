@@ -22,7 +22,7 @@ Never...
 
 - ...use any other character than uppercase letters (`A-Z`), lowercase letters (`a-z`), and numbers (`0-9`).
 - ...use numbers (`0-9`) at the beginning of names.
-- ...use underscores (`_`), except as prefix for private fields.
+- ...use underscores (`_`), except as prefix for private fields, as separator for test assembly suffixes, or as separator for test method names.
 
 ### Casings
 
@@ -512,6 +512,10 @@ public TextBox FirstName { get; set; }
 
 *See [Events](#Pre/Post indication)*
 
+#### Test assemblies
+
+*See [Test code](#Test code)*
+
 ### Assemblies
 
 #### Conflicts
@@ -940,6 +944,54 @@ for (int i = 0; i < orders.Count; i++)
 {
     ...
 }
+```
+
+### Test code
+
+#### Assemblies
+
+Always put test code into their own test assembly.
+
+Never put unit tests, integration tests, and system tests into the same test assembly.
+
+Always name a test assembly after the assembly which contains the concrete types (for unit tests), the subsystem (for integration tests), or the system (for system tests) it is testing, otherwise adhering to the same naming rules as described in here.
+
+Always use the following suffixes for the test assembly names:
+
+* Unit tests: `_UnitTests`
+* Integration tests: `_IntegTests`
+* System tests: `_SysTests`
+
+#### Types
+
+Always name a test type after the concrete type (for unit tests), the subsystem (for integration tests), or the system (for system tests) it is testing, otherwise adhering to the same naming rules as described in here.
+
+Example (unit test):
+
+```c#
+public sealed class LaserBeam { ... }
+```
+
+Example (integration test):
+
+```c#
+public sealed class SpaceshipAi { ... }
+```
+
+Example (system test):
+
+```c#
+public sealed class SpaceshipGameOnLinux { ... }
+```
+
+#### Methods
+
+Always use the following pattern to name test methods: `Situation_TestAction_ExpectedOutcome`, otherwise adhering to the same naming rules as described in here.
+
+Example:
+
+```c#
+public void LaserBeamIdle_FireLaserBeam_LaserBeamFiring () { ... }
 ```
 
 ## Styling
