@@ -32,25 +32,41 @@ The following is an (incomplete) list of third-party libraries recommended for u
 | Name               | Details                 | URL                                      |
 | ------------------ | ----------------------- | ---------------------------------------- |
 | Dapper             | DB-Object mapper        | https://github.com/StackExchange/Dapper  |
+| AutoMapper         | Object-Object mapper    | http://automapper.org/                   |
 | System.Data.SQLite | SQLite ADO.NET provider | https://system.data.sqlite.org/          |
+| Storage            | Storage abstractions    | https://github.com/aloneguid/storage     |
 | EPPlus             | Excel file handling     | https://github.com/JanKallman/EPPlus     |
 | DocX               | Word file handling      | https://github.com/xceedsoftware/DocX    |
 | DotNetZip          | ZIP file handling       | https://github.com/haf/DotNetZip.Semverd |
+
+### Web
+
+| Name              | Details              | URL                                      |
+| ----------------- | -------------------- | ---------------------------------------- |
+| JSON.NET          | JSON framework       | https://www.newtonsoft.com/json          |
+| HTML Agility Pack | HTML parser          | https://html-agility-pack.net/           |
+| AngleSharp        | HTML DOM framework   | https://anglesharp.github.io/            |
+| ScrapySharp       | Web scraper          | https://github.com/rflechner/ScrapySharp |
+| CommonMark.NET    | MD to HTML converter | https://github.com/Knagis/CommonMark.NET |
 
 ### Infrastructure
 
 | Name         | Details                                 | URL                                     |
 | ------------ | --------------------------------------- | --------------------------------------- |
-| JSON.NET     | JSON framework                          | https://www.newtonsoft.com/json         |
+| Akka.NET     | Distributed actor framework             | https://getakka.net/                    |
 | Polly        | Resilience and transient-fault-handling | http://www.thepollyproject.org/         |
+| Hangfire     | Persistent background processing        | https://www.hangfire.io/                |
+| Quartz.NET   | Job sheduler                            | https://www.quartz-scheduler.net/       |
+| TopShelf     | Windows service framework               | http://topshelf-project.com/            |
 | BouncyCastle | Cryptographic algorithms                | http://www.bouncycastle.org/csharp/     |
-| DeviceId     | Machine identification                  | https://github.com/MatthewKing/DeviceId |
+| BCrypt.Net   | Blowfish hash algorithm                 | https://github.com/BcryptNet/bcrypt.net |
 
 ### Interop
 
 | Name      | Details                      | URL                                        |
 | --------- | ---------------------------- | ------------------------------------------ |
 | Shell.NET | .NET Core Bash shell wrapper | https://github.com/phil-harmoniq/Shell.NET |
+| DeviceId  | Machine Identification       | https://github.com/MatthewKing/DeviceId    |
 
 ## JavaScript
 
@@ -78,7 +94,8 @@ The following is an (incomplete) list of third-party libraries recommended for u
 
 ## Other lists
 
-| Name                       | Details                                  | URL                                      |
-| -------------------------- | ---------------------------------------- | ---------------------------------------- |
-| JavaScript WYSIWYG editors | Comparison of JavaScript WYSIWYG editors | https://github.com/iDoRecall/comparisons |
+| Name                                                  | Details                                  | URL                                                          |
+| ----------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------ |
+| Open Source .NET libraries that make your life easier | List of .NET Libraries                   | https://github.com/tallesl/net-libraries-that-make-your-life-easier |
+| JavaScript WYSIWYG editors                            | Comparison of JavaScript WYSIWYG editors | https://github.com/iDoRecall/comparisons                     |
 
